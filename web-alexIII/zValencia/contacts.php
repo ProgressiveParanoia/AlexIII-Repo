@@ -31,7 +31,7 @@
     <header>
 		<div class="zerogrid">
         <center>
-          <a href="index.html"><img src="images/AlexLOGO.png" width="150" height="90"></a>
+          <a href="index.php"><img src="images/AlexLOGO.png" width="150" height="90"></a>
         </center>
         <!--
         <nav>  
@@ -46,9 +46,9 @@
          </nav>
        -->
       <div class="topnav" id="myTopnav">
-      <a href="index.html">Home</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="contacts.html" class="active">Contacts</a>
+      <a href="index.php">Home</a>
+      <a href="gallery.php">Gallery</a>
+      <a href="contacts.php" class="active">Contacts</a>
       <a>Reservation</a>
       <a>Delivery</a>
       <a href="javascript:void(0);" class="icon" onclick="myFunction()">
