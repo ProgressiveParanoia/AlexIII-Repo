@@ -6,7 +6,6 @@
   session_start();
   if(!isset($_SESSION['username']) && empty($_SESSION['username']) === true)
   {
-    //echo "<script>location = 'http://presidentialcarmuseum.000webhostapp.com/admin/dashgum/assets/login.php'</script>";
     header("Location: login.php");
   }
   require_once "config.php";
@@ -16,7 +15,6 @@
 
   $header = "";
   $description = "";
-
 
   if($_SERVER["REQUEST_METHOD"] == "POST")
   {

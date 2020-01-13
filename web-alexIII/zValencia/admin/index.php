@@ -86,7 +86,7 @@
                       </a>
                       <ul class="sub">
                           <li><a  href="edit_about.php">Edit About</a></li> 
-                          <li><a  href="edit_signature_dish.php">Edit Signature Dish</a></li>    
+                          <li><a  href="edit_signature_dish.php">Edit Signature Dish</a></li> 
                         <!--
                           <li><a  href="edit_home.php">Edit Home</a></li>			      
                           <li><a  href="edit_about.php">Edit About</a></li>		     
