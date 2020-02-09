@@ -1,9 +1,60 @@
 ﻿<?php
- session_start();
+  require_once "config.php";
+  
+  session_start();
   if(!isset($_SESSION['username']) && empty($_SESSION['username']) === true)
   {
     header("Location: login.php");
   }
+
+  //accept/reject actions
+  if($_SERVER["REQUEST_METHOD"] == "POST")
+  {
+    if(array_key_exists("res_accept", $_POST))  
+    {
+      $accepted_entry = $_POST["res_accept"];
+      $sql_accept = "UPDATE reservations SET verified = 1 WHERE res_id = ?";
+      if($statement = mysqli_prepare($link, $sql_accept))
+      {
+        mysqli_stmt_bind_param($statement, "s", $accepted_entry);
+
+        if(mysqli_stmt_execute($statement)){
+        }
+      }
+      mysqli_stmt_close($statement);
+    }
+    else
+    if(array_key_exists("res_decline", $_POST))
+    {
+      $declined_entry = $_POST["res_decline"];
+      $sql_decline = "UPDATE reservations SET verified = 0 WHERE res_id = ?";
+      if($statement = mysqli_prepare($link, $sql_decline))
+      {
+        mysqli_stmt_bind_param($statement, "s", $declined_entry);
+
+        if(mysqli_stmt_execute($statement)){
+        }
+      }
+      mysqli_stmt_close($statement);
+    }
+  }
+//end accept/reject  
+
+// SETUP PENDING RESERVATION TABLE
+  $header_array = array("ID", "NAME", "EMAIL", "CONTACT NUMBER", "NOTES", "RESERVATION DATE", "TIME START", "TIME END", "BRANCH ADDRESS");
+  $reservation_entries = null;
+  
+  $sql = "SELECT res_id, res_name, res_email, res_tel, res_notes, res_date, res_start, res_end, branch_address FROM reservations";
+
+    if($statement = mysqli_prepare($link, $sql))
+    {
+        if(mysqli_stmt_execute($statement))
+        {
+          $result_set = ( mysqli_stmt_get_result($statement));
+          $rows = mysqli_fetch_all($result_set);
+        }
+    }
+//END PENDING
 ?>
 
 <!DOCTYPE html>
@@ -128,8 +179,51 @@
       <!--main content start-->
        <section id="main-content">
           <section class="wrapper">
+            <div class="tab-pane" id="chartjs">
+              <div class="row mt">
+                <div class="col-lg-12">
+                  <div class="content-panel">
+                    <center><h1>Pending Reservations</h1>
+                    <?php 
+                      echo "<table>";
+                        //headers
+                        echo "<tr>";
+                        for($i = 0; $i < count($header_array); $i++)
+                        {
+                          $current_header = $header_array[$i];
+                          echo "<th>".$current_header."</th>";
+                        }
+                        echo "</tr>";
+                        //entries
+                        $row_size = count($rows);
+                        for($x = 0; $x < $row_size; $x++)
+                        {
+                          echo "<tr>";
+                          $reservation_entries = $rows[$x];
+                          $res_size = count($reservation_entries); //divide by two since its associative array is being counted too.
+                          for($i = 0; $i < $res_size; $i++)
+                          {
+                            $current_entry = $rows[$x][$i];//$reservation_entries[$i];
+                            echo "<td>".$current_entry."</td>";
+                          }
+                          echo "<form method='post'>";
+                          echo "<td><button type='submit' class='btn btn-round btn-success' name='res_accept' value='".$rows[$x][0]."''>Accept</button>";
+                          echo "<button type='submit' class='btn btn-round btn-failed' name='res_decline' value='".$rows[$x][0]."'>Reject</button></td>";
+                          echo "</tr>";
+                          echo "</form>";
+     
+                        }
+                      echo "</table>";
+                    ?>
+                    </center>
+                </div>
+            </div>
+           </div>
+            <!--
           <h3><i class="fa fa-angle-right"></i> Graph</h3>
+        -->
               <!-- page start-->
+              <!--
               <div class="tab-pane" id="chartjs">
                   <div class="row mt">
                       <div class="col-lg-6">
@@ -186,6 +280,7 @@
                       </div>
                   </div>
               </div>
+            -->
               <!-- page end-->
           </section>          
       </section><!-- /MAIN CONTENT -->
