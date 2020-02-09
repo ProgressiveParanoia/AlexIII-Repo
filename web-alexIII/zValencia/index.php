@@ -83,7 +83,7 @@
 		  <a href="index.php" class="active">Home</a>
 		  <a href="gallery.php">Gallery</a>
 		  <a href="contacts.php">Contacts</a>
-		  <a>Reservation</a>
+		  <a href="reservation.php">Reservation</a>
 		  <a>Delivery</a>
 		  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
 		    <i class="fa fa-bars"></i>
