@@ -12,7 +12,7 @@
    $iconic_header = "";
 
    //history description
-      $sql = "SELECT description, header FROM history_description WHERE id = 1";
+      $sql = "SELECT description, header FROM history_description WHERE id = 1";                                      
 
       if($statement = mysqli_prepare($link, $sql))
       {
