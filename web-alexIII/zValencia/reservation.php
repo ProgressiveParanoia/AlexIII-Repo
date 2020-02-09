@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Contacts</title>
+    <title>Reservation</title>
     <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/style.css">
 	<link rel="stylesheet" href="css/zerogrid.css" type="text/css" media="all">
 	<link rel="stylesheet" href="css/responsive.css" type="text/css" media="all">
+  <link rel="stylesheet" href="reservation/public/3-theme.css" type="text/css" media="all">
     <link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'>
     <script src="js/jquery-1.7.min.js"></script>
     <script src="js/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="js/css3-mediaqueries.js"></script>
+
+  <script src="reservation/public/3a-reserve-day.js"></script>
 	<!--[if lt IE 8]>
        <div style=' clear: both; text-align:center; position: relative;'>
          <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -25,6 +28,7 @@
 	<![endif]-->
 </head>
 <body>
+  
 <div class="bg-top">
 <div class="bgr">
   <!--==============================header=================================-->
@@ -48,8 +52,8 @@
       <div class="topnav" id="myTopnav">
       <a href="index.php">Home</a>
       <a href="gallery.php">Gallery</a>
-      <a href="contacts.php" class="active">Contacts</a>
-      <a href="reservation.php">Reservation</a>
+      <a href="contacts.php">Contacts</a>
+      <a href="reservation.php" class="active">Reservation</a>
       <a>Delivery</a>
       <a href="javascript:void(0);" class="icon" onclick="myFunction()">
         <i class="fa fa-bars"></i>
@@ -72,59 +76,26 @@
   <!--==============================content================================-->
     <section id="content">
 		<div class="zerogrid">
-
-      <!--
-       <div class="block-1">
-	   	<div class="col-1-4">
-	       	<div class="pad border-right">
-	        	<div class="block-1-title">
-	            	<span>01.</span>
-	                <div class="text-1">Best<strong>cuisine</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">This website template has several pages:  Restaurant, Cuisine, Wine List, CookBook, Gallery, Contacts (note that contact us form - doesn't work).</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-		<div class="col-1-4">
-	        <div class="pad border-right">
-	        	<div class="block-1-title">
-	            	<span>02.</span>
-	                <div class="text-2">Good<strong>rest</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">Cras mattis tempor eros nec tristique. Sed sed felis arcu, vel vehicula augue. Maecenas faucibus sagittis cursus. Fusce tincidunt, tellus eget tristique cursus.</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-		<div class="col-1-4">
-	        <div class="pad border-right">
-	        	<div class="block-1-title">
-	            	<span>03.</span>
-	                <div class="text-3">Great<strong>service</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">Maecenas faucibus sagittis cursus. Fusce tincidunt, tellus eget tristique cursus, orci mi iaculis. sem, sit amet dictum velit velit eu magna. 
-	Nunc viverra nisi sed orci.</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-		<div class="col-1-4">
-	        <div class="pad">
-	        	<div class="block-1-title">
-	            	<span>04.</span>
-	                <div class="text-4">Best<strong>cooks</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">Fusce tincidunt, tellus eget tristique cursus, orci mi iaculis. sem, sit amet dictum velit velit eu magna. Nunc viverra nisi sed orci tincidunt at hendrerit orci.</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-       </div>
--->
-
        <div class="block-2 pad-2">
-        <div class="col-2-3">
+        <center>
+         <h3 class="h3-line">Contact form:</h3>
+          <form id="res_form" onsubmit="return res.save()">
+            <label for="res_name">Name</label>
+            <input type="text" required id="res_name"/>
+            <label for="res_email">Email</label>
+            <input type="email" required id="res_email"/>
+            <label for="res_tel">Telephone Number</label>
+            <input type="text" required id="res_tel"/>
+            <label for="res_notes">Notes (if any)</label>
+            <input type="text" id="res_notes"/>
+            <label>Reservation Date</label>
+            <div id="res_date" class="calendar"></div>
+            <button id="res_go" disabled>
+              Submit
+            </button>
+          </form>
+        </center>
+<!--
 			<div class="wrap-col">
         	<h3 class="h3-line">Contact info</h3>
             <div class="map img-border">
@@ -138,15 +109,6 @@
                     <dd><span>Fax:</span><strong class="clr-2">+1 504 889 9898</strong></dd>
                     <dd><span>Email:</span><a href="#" class="link">email@gmail.com</a></dd>
                 </dl>
-                <!--
-                <dl class="adr last">
-                    <dt class="clr-3 it-bold">Valencia</dt>
-                    <dd>9863 Mill Road, <br>Cambridge, MG09 99HT</dd>
-                    <dd><span>Telephone:</span><strong class="clr-2">+1 959 603 6035</strong></dd>
-                    <dd><span>Fax:</span><strong class="clr-2">+1 504 889 9898</strong></dd>
-                    <dd><span>Email:</span><a href="#" class="link">mail@valencia.com</a></dd>
-                </dl>
-              -->
             </div>
 			</div>
         </div>
@@ -164,16 +126,18 @@
             </form> 
 			</div>
         </div>
-       </div>
+      -->
 	   </div>
     </section> 
 
 <!--==============================footer=================================-->
   <footer>
+    <!--
  	<div class="zerogrid">
       <p>© 2012  Valencia<br>
       Designed by <a rel="nofollow" href="http://www.templatemonster.com/" target="_blank" class="link">TemplateMonster</a> & <a rel="nofollow" href="https://www.zerotheme.com/" class="link">ZEROTHEME</a></p> 
 	</div>
+-->
   </footer>	 
 </div> 
 </div>       
