@@ -78,7 +78,7 @@
 		<div class="zerogrid">
        <div class="block-2 pad-2">
         <center>
-         <h3 class="h3-line">Contact form:</h3>
+         <h3 class="h3-line">Reservation</h3>
           <form id="res_form" onsubmit="return res.save()">
             <label for="res_name">Name</label>
             <input type="text" required id="res_name"/>
