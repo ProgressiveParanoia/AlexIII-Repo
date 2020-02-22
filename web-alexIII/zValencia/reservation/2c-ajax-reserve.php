@@ -155,8 +155,10 @@ if ($_POST['req']) { switch ($_POST['req']) {
 
     echo "<label>Branch</label>";
     echo"<select class='branch'>";
-      echo "<option value='53 Pontiac Corner Chevelle Street, Fairview, Quezon City'>53 Pontiac Corner Chevelle Street, Fairview, Quezon City</option>>";
-      echo "<option value='29 Matalino St, Central Diliman, Quezon, 1100 Metro Manila'>29 Matalino St, Central Diliman, Quezon, 1100 Metro Manila</option>>";
+      echo "<option value='Fairview'>Fairview</option>>";
+      echo "<option value='Matalino'>Matalino</option>>";
+      echo "<option value='Tomas Morato'>Tomas Morato</option>>";
+      echo "<option value='Wilson'>Wilson</option>>";
     echo "</select>";
 
     // --- END RESERVATION DATE MONTH/YEAR INPUT ---

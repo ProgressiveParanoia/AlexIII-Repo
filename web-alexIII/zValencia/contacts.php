@@ -1,3 +1,6 @@
+<?php
+  $curret_store_selection = empty($_GET) === false ? $_GET['store'] : "Matalino";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,12 +131,53 @@
 			<div class="wrap-col">
         	<h3 class="h3-line">Contact info</h3>
             <div class="map img-border">
-              <iframe src="https://maps.google.com/maps?q=29%20Matalino%20St%2C%20Central%20Diliman%2C%20Quezon%2C%201100%20Metro%20Manila&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+              <?php 
+                $iframe_source = "";
+                switch ($curret_store_selection) {
+                  case 'Matalino':
+                    $iframe_source = "https://maps.google.com/maps?q=29%20Matalino%20St%2C%20Central%20Diliman%2C%20Quezon%2C%201100%20Metro%20Manila&t=&z=13&ie=UTF8&iwloc=&output=embed";
+                    break;
+                  case 'Wilson':
+                    $iframe_source = "https://maps.google.com/maps?q=alex%20iii&t=&z=13&ie=UTF8&iwloc=&output=embed";
+                    break;
+                  case 'Tomas_Morato':
+                    $iframe_source="https://maps.google.com/maps?q=Alex%20III&t=&z=13&ie=UTF8&iwloc=&output=embed";
+                    break;
+                  case 'Fairview':
+                    $iframe_source="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;coord=14.703773, 121.070369&amp;q=%2053%20Pontiac%20Corner%20Cheville%20Novaliches%2C%20Quezon%20City%201118%20Metro%20Manila%20Philippines+(Alex%20III%20Restaurant)&amp;ie=UTF8&amp;t=&amp;z=17&amp;iwloc=B&amp;output=embed";
+                    break;
+                  default:
+                    # code...
+                    break;
+                }
+              ?>
+              <iframe src=<?php echo "'".$iframe_source."'"; ?>></iframe>
             </div>
             <div class="wrap">
             	<dl class="adr">
-                    <dt class="clr-3 it-bold">Valencia</dt>
+                    <a href="contacts.php?store=Matalino"><dt class="clr-3 it-bold">Matalino</dt></a>
                     <dd> 29 Matalino St, Central Diliman <br>Quezon City, 1100 Metro Manila</dd>
+                    <dd><span>Telephone:</span><strong class="clr-2">+1 959 603 6035</strong></dd>
+                    <dd><span>Fax:</span><strong class="clr-2">+1 504 889 9898</strong></dd>
+                    <dd><span>Email:</span><a href="#" class="link">email@gmail.com</a></dd>
+                </dl>
+              <dl class="adr">
+                    <a href="contacts.php?store=Wilson"><dt class="clr-3 it-bold">Wilson</dt></a>
+                    <dd> Wilson <br>San Juan, 1502 Metro Manila</dd>
+                    <dd><span>Telephone:</span><strong class="clr-2">+1 959 603 6035</strong></dd>
+                    <dd><span>Fax:</span><strong class="clr-2">+1 504 889 9898</strong></dd>
+                    <dd><span>Email:</span><a href="#" class="link">email@gmail.com</a></dd>
+                </dl>
+                <dl class="adr">
+                    <a href="contacts.php?store=Tomas_Morato"><dt class="clr-3 it-bold">Tomas Morato</dt></a>
+                    <dd> 30 Sct. Bayoran St, Diliman <br>Quezon City, Metro Manila</dd>
+                    <dd><span>Telephone:</span><strong class="clr-2">+1 959 603 6035</strong></dd>
+                    <dd><span>Fax:</span><strong class="clr-2">+1 504 889 9898</strong></dd>
+                    <dd><span>Email:</span><a href="#" class="link">email@gmail.com</a></dd>
+                </dl>
+                <dl class="adr">
+                    <a href="contacts.php?store=Fairview"><dt class="clr-3 it-bold">Fairview</dt></a>
+                    <dd>  53 Pontiac Corner Cheville Novaliches <br>Quezon City 1118 Metro Manila Philippines</dd>
                     <dd><span>Telephone:</span><strong class="clr-2">+1 959 603 6035</strong></dd>
                     <dd><span>Fax:</span><strong class="clr-2">+1 504 889 9898</strong></dd>
                     <dd><span>Email:</span><a href="#" class="link">email@gmail.com</a></dd>

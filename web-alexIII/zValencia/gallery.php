@@ -148,7 +148,19 @@
 						for($i = 2; $i < count($slider_images) + 2; $i++)
 						{
 							$current_slider_img = $slider_images[$i];
-							echo "<li><a class='plus' href='".$slider_dir."/".$current_slider_img."'><img src='".$slider_dir."/".$current_slider_img."'</li>";
+							if($current_slider_img)
+							{
+								if(strpos($current_slider_img, ".jpg"))
+								{
+									echo "<li><a class='plus' href='".$slider_dir."/".$current_slider_img."'><img src='".$slider_dir."/".$current_slider_img."'</li>";
+								}else if(strpos($current_slider_img, ".mp4"))
+								{
+									echo "<li><video width=640 height=480 controls>
+										<source src='".$slider_dir."/".$current_slider_img."' type='video/mp4'>
+									</video>
+									</li>";								
+								}
+							}
 						}
 					?>       
 

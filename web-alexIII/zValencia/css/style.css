@@ -29,7 +29,7 @@ a:hover {text-decoration:none;}
 .clr-2 { color:#4d4d4d;}
 .clr-3 { color:#a70101;}
 
-h2 { font-size:40px; line-height:48px; color:#a70101; font-weight:normal; font-style:italic;  text-shadow:#cc7b7b 0px 0px 3px;}
+h2 { font-size:40px; line-height:48px; color:#a70101; font-weight:normal; font-style:italic;}
 h2 strong { font-size:22px; line-height:27px; color:#131313; font-weight:bold; font-style:italic;  text-shadow:transparent 0px 0px 3px; display:block; margin-top:-5px;}
 .h2-line { border-bottom:#d6d6d6 1px solid; padding-bottom:5px;}
 .h2 { text-align:center;}
