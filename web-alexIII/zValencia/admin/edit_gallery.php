@@ -26,16 +26,28 @@
                 $lastIndex = $i;
             }  
             */
-      for($i = 2; $i < count($gallery_images) + 2; $i++)
+        for($i = 2; $i < count($gallery_images) + 2; $i++)
         {
             $current_slider_name = $gallery_images[$i];
-            $current_slider_name = trim($current_slider_name, ".jpg");
-            $trimmed_post_key = trim($post_keys[0], "_jpg");
+            
+            $currentFileFormat = "";
+            if(strpos($current_slider_name, ".jpg"))
+            {
+              $current_slider_name = trim($current_slider_name, ".jpg");
+              $trimmed_post_key = trim($post_keys[0], "_jpg");
+              $currentFileFormat= ".jpg";
+            }else if(strpos($current_slider_name, ".mp4"))
+            {
+              $current_slider_name = trim($current_slider_name, ".mp4");
+              $trimmed_post_key = trim($post_keys[0], "_mp4");
+              $currentFileFormat = ".mp4";
+            }
+
             $strcmp_val = strcasecmp($trimmed_post_key, $current_slider_name);
 
             if($strcmp_val === 0)
             {
-              unlink($gallery_dir. "/".$current_slider_name . ".jpg");
+              unlink($gallery_dir. "/".$current_slider_name . $currentFileFormat);
               header('Location: edit_gallery.php');
             }
             $lastIndex = $i;
@@ -60,11 +72,14 @@
             {
                 if($fileError === 0)
                 {
-                  $fileName = date_timestamp_get(date_create()) .".jpg";
+                  $fileForm = strcasecmp($fileActualExtensison, "mp4") != 0 ? ".jpg" : ".mp4";
+                  $fileName = date_timestamp_get(date_create()) . $fileForm;
                   $fileDestination = 'uploads/gallery/' . $fileName;
                   move_uploaded_file(($fileTmpName), ($fileDestination));
                   header('Location: edit_gallery.php');
                #   echo "You successfully uploaded the file!";
+                }else{
+                  echo "File error encountered! Error number:" . $fileError;
                 }
             }          
         }
@@ -199,7 +214,23 @@
                                 {
                                     $offset_normal_idx = ($i-2);
                                     $current_slider_name = $gallery_images[$i];
-                                    echo "<li><image width=300 height=240 src='uploads/gallery/".$current_slider_name."'></li>";
+                                    if(strpos($current_slider_name, ".jpg"))
+                                    {
+                                      echo "<li><image width=300 height=240 src='uploads/gallery/".$current_slider_name."'></li>";
+                                    }else
+                                    if(strpos($current_slider_name, ".mp4"))
+                                    {
+                                      //echo "<li>
+                                      //<video width=300 height=240 control> 
+                                      //  <source src='uploads/gallery/".$current_slider_name."' type='video/mp4'>
+                                     // </video>
+                                      //</li>";
+                                      echo "<li>
+                                              <video width=300 height=240 controls>
+                                                <source src='uploads/gallery/".$current_slider_name."' type='video/mp4'>
+                                              </video>
+                                            </li>";
+                                    }
                                     echo "<li><button type='submit' name='".$current_slider_name."' class='btn btn-round btn-success'>Remove</button><label>".$current_slider_name."</label></li>";
                                     //echo "<image></image>";
                                 }
