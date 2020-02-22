@@ -162,10 +162,10 @@
     </section> 
 
 <!--==============================footer=================================-->
-  <footer>
+<footer>
  	<div class="zerogrid">
-      <p>© 2012  Valencia<br>
-      Designed by <a rel="nofollow" href="http://www.templatemonster.com/" target="_blank" class="link">TemplateMonster</a> & <a rel="nofollow" href="https://www.zerotheme.com/" class="link">ZEROTHEME</a></p> 
+      <p>2020 Alex III<br>
+      </p> 
 	</div>
   </footer>	
 </div> 
