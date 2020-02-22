@@ -142,6 +142,17 @@
        			<h2 class="h2-line-2">Our gallery:</h2>
             </div>
             <ul class="gallery">
+					<?php
+						$slider_dir = 'admin/uploads/gallery';
+    					$slider_images = array_diff(scandir($slider_dir), array('..', '.'));
+						for($i = 2; $i < count($slider_images) + 2; $i++)
+						{
+							$current_slider_img = $slider_images[$i];
+							echo "<li><a class='plus' href='".$slider_dir."/".$current_slider_img."'><img src='".$slider_dir."/".$current_slider_img."'</li>";
+						}
+					?>       
+
+					<!--    	
                	<li><a class="plus" href="images/gallery-1-big.jpg"><img src="images/gallery-1.jpg" alt=""></a></li>
 				<li><a class="plus" href="images/gallery-2-big.jpg"><img src="images/gallery-2.jpg" alt=""></a></li>
 				<li><a class="plus" href="images/gallery-3-big.jpg"><img src="images/gallery-3.jpg" alt=""></a></li>
@@ -154,6 +165,7 @@
                 <li><a class="plus" href="images/gallery-10-big.jpg"><img src="images/gallery-10.jpg" alt=""></a></li>
 				<li><a class="plus" href="images/gallery-11-big.jpg"><img src="images/gallery-11.jpg" alt=""></a></li>
 				<li><a class="plus" href="images/gallery-12-big.jpg"><img src="images/gallery-12.jpg" alt=""></a></li>
+			-->
             </ul>
         </div>
        </div>
