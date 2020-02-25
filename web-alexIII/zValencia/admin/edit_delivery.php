@@ -8,81 +8,65 @@
   {
     header("Location: login.php");
   }
-    require_once "config.php";
     
-    $gallery_dir = 'uploads/gallery';
-    $gallery_images = array_diff(scandir($gallery_dir), array('..', '.'));
-    $lastIndex = 0;
-	if($_SERVER["REQUEST_METHOD"] == "POST")
+  require_once "config.php";
+  
+  $menu_data = null;
+  $item_id = 0; 
+  $item_price = 0;
+
+  $item_title = "";
+  $item_description = "";
+
+  if($_SERVER["REQUEST_METHOD"] == "POST")
+  {
+    if(array_key_exists("remove_item", $_POST))
     {
-    	$post_keys = array_keys($_POST);
-      /*
-            if($strcmp_val === 0)
-            {
-                echo "Do unlink! Name: " . $current_slider_name;
-                unlink($slider_dir. "/".$current_slider_name . ".jpg");
-                header('Location: edit_gallery.php');
-                $lastIndex = $i;
-            }  
-            */
-        for($i = 2; $i < count($gallery_images) + 2; $i++)
+      $key_to_remove = $_POST["remove_item"];
+
+      $delete_sql = "DELETE FROM `delivery_menu` WHERE item_id = ?";
+      if($statement = mysqli_prepare($link, $delete_sql))
+      {
+
+        mysqli_stmt_bind_param($statement, "s", $p1);
+        $p1 = $key_to_remove;
+        if(mysqli_stmt_execute($statement))
         {
-            $current_slider_name = $gallery_images[$i];
-            
-            $currentFileFormat = "";
-            if(strpos($current_slider_name, ".jpg"))
-            {
-              $current_slider_name = trim($current_slider_name, ".jpg");
-              $trimmed_post_key = trim($post_keys[0], "_jpg");
-              $currentFileFormat= ".jpg";
-            }else if(strpos($current_slider_name, ".mp4"))
-            {
-              $current_slider_name = trim($current_slider_name, ".mp4");
-              $trimmed_post_key = trim($post_keys[0], "_mp4");
-              $currentFileFormat = ".mp4";
-            }
-
-            $strcmp_val = strcasecmp($trimmed_post_key, $current_slider_name);
-
-            if($strcmp_val === 0)
-            {
-              unlink($gallery_dir. "/".$current_slider_name . $currentFileFormat);
-              header('Location: edit_gallery.php');
-            }
-            $lastIndex = $i;
         }
+      }
+    }
+    if(array_key_exists("item_submit", $_POST))
+    {
+      $item_title = $_POST['item_title'];
+      $item_description = $_POST['item_description'];
+      $item_price = $_POST['item_price'];
+      //$post_new_sql = "INSERT INTO `delivery_menu`(`item_id`, `price`, `name`, `description`) VALUES (".$item_id.",".$item_price.",". $item_title.",". $item_description.")";
+      $post_new_sql = "INSERT INTO `delivery_menu`(`item_id`, `price`, `name`, `description`) VALUES (?,?,?,?)";
+      if($statement = mysqli_prepare($link, $post_new_sql))
+      {
+        mysqli_stmt_bind_param($statement, "ssss", $p1, $p2, $p3, $p4);
 
-        if(array_key_exists("add_gallery_image", $_POST))
+        $p1 = $item_id;
+        $p2 = $item_price;
+        $p3 = $item_title;
+        $p4 = $item_description;
+        if(mysqli_stmt_execute($statement))
         {
-            $file = $_FILES['gallery_image'];
-
-            $fileName = $file['name'];
-            $fileTmpName = $file['tmp_name']; //address
-            $fileSize = $file['size'];
-            $fileError = $file['error']; //error message
-            $fileType = $file['type']; //file extension
-
-            $fileExtension = explode('.', $fileName);
-            $fileActualExtensison = strtolower(end($fileExtension));
-
-            $allowedFileExtensions = array('jpg', 'jpeg', 'png', 'mp4');
-
-            if(in_array($fileActualExtensison, $allowedFileExtensions))
-            {
-                if($fileError === 0)
-                {
-                  $fileForm = strcasecmp($fileActualExtensison, "mp4") != 0 ? ".jpg" : ".mp4";
-                  $fileName = date_timestamp_get(date_create()) . $fileForm;
-                  $fileDestination = 'uploads/gallery/' . $fileName;
-                  move_uploaded_file(($fileTmpName), ($fileDestination));
-                  header('Location: edit_gallery.php');
-               #   echo "You successfully uploaded the file!";
-                }else{
-                  echo "File error encountered! Error number:" . $fileError;
-                }
-            }          
         }
-    }    
+      }
+    }
+  }
+
+    $sql = "SELECT * FROM delivery_menu";
+
+    if($statement_get = mysqli_prepare($link, $sql))
+    {
+      if(mysqli_stmt_execute($statement_get))
+      {
+        $result_set = mysqli_stmt_get_result($statement_get);
+        $menu_data = mysqli_fetch_all($result_set);
+      }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -161,7 +145,7 @@
                       <ul class="sub">
                           <li><a  href="edit_home.php">Edit Home</a></li>        
                           <li><a  href="edit_gallery.php">Edit Gallery</a></li>  
-                          <li><a  href="edit_delivery.php">Edit Delivery</a></li> 
+                          <li><a  href="edit_delivery.php">Edit Delivery</a></li>  
                       </ul>
                   </li>
                   <li class="sub-menu">
@@ -174,7 +158,7 @@
               </ul>
               <!-- sidebar menu end-->
           </div>
-      </aside>
+      </aside>j
       <!--sidebar end-->
       
       <!-- **********************************************************************************************************************************************************
@@ -184,61 +168,65 @@
       <section id="main-content">
         <section class="wrapper">
             <!-- Home of Alex III-->
-        	<h3><i class="fa fa-angle-right"></i> Gallery</h3>
+        	<h3><i class="fa fa-angle-right"></i> Menu</h3>
 				<div class="row mt">
-					<div class="col-lg-12">
-                  		<div class="form-panel">
-                      		<h4 class="mb"><i class="fa fa-angle-right"></i> Gallery</h4>
-                      		<form class="form-horizontal style-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post" enctype="multipart/form-data">
-                        
-                              	<label class="col-sm-2 col-sm-2 control-label">Image</label>
-                              	<div class="col-sm-10">
-                                  <!--<input type="text" name="header" class="form-control">-->
-                                    <input type="file" name="gallery_image">
-                                  <span class="help-block">Change Image</span>
-                              	</div>
-                        		<button type="submit" class="btn btn-round btn-success" name ="add_gallery_image">Submit</button>
-                      		</form>						
-						</div>
-
-                    <div class="form-panel">
-                      <h4 class="mb"><i class="fa fa-angle-right"></i> Images in Gallery</h4>
+					<div class="col-lg-12">		
+                  <div class="form-panel">
+                      <h4 class="mb"><i class="fa fa-angle-right"></i>Menu Item</h4>
                       <form class="form-horizontal style-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post">
-                        <?php 
-                            if(empty($gallery_images)){
-                                echo "<label>Slider Folder is Empty </label>";
-                            }else{
-                                echo "<ul>";
-                                //offsetting by 2 since we remove the first two directory elements
-                                for($i = 2; $i < count($gallery_images) + 2; $i++)
-                                {
-                                    $offset_normal_idx = ($i-2);
-                                    $current_slider_name = $gallery_images[$i];
-                                    if(strpos($current_slider_name, ".jpg"))
-                                    {
-                                      echo "<li><image width=300 height=240 src='uploads/gallery/".$current_slider_name."'></li>";
-                                    }else
-                                    if(strpos($current_slider_name, ".mp4"))
-                                    {
-                                      //echo "<li>
-                                      //<video width=300 height=240 control> 
-                                      //  <source src='uploads/gallery/".$current_slider_name."' type='video/mp4'>
-                                     // </video>
-                                      //</li>";
-                                      echo "<li>
-                                              <video width=300 height=240 controls>
-                                                <source src='uploads/gallery/".$current_slider_name."' type='video/mp4'>
-                                              </video>
-                                            </li>";
-                                    }
-                                    echo "<li><button type='submit' name='".$current_slider_name."' class='btn btn-round btn-success'>Remove</button><label>".$current_slider_name."</label></li>";
-                                    //echo "<image></image>";
-                                }
-                                echo "</ul>";
-                            }
-                        ?>
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Item Name</label>
+                              <div class="col-sm-10">
+                                  <input type="text" name="item_title" class="form-control" value="<?php echo $item_title?>">
+                                  <span class="help-block">Change Item Name</span>
+                              </div>                            
+                            <label class="col-sm-2 col-sm-2 control-label">Item Price</label>
+                            <div class="col-sm-10">
+                                  <input type="text" name="item_price" class="form-control" value="<?php echo $item_price?>">
+                                  <span class="help-block">Change Item Price</span>
+                              </div>
+                              <label class="col-sm-2 col-sm-2 control-label">Item Description</label>
+                            <!--<div class="col-sm-6">
+                              <image width=420 height=320 src='uploads/index_images/description_image.jpg'></image>
+                            -->
+                            <div class="col-sm-10">
+                              <textarea class="form-control" name="item_description" style="height:170px" ><?php echo $item_description?></textarea>
+                              <span class="help-block">Change Sub Message.</span>
+                            </div>
+                              <label class="col-sm-2 col-sm-2 control-label">   
+                                <button type="submit" class="btn btn-round btn-success" name="item_submit">Submit</button>   
+                              </div>                      
+                            </div>
+                          </div>
                     </form>
-                  </div>						
+                  </div>     
+                  <div class="form-panel">
+                      <h4 class="mb"><i class="fa fa-angle-right"></i>Menu Items</h4>
+                      <form class="form-horizontal style-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post">
+                          <?php
+                            echo "<ul>";
+                            for($x = 0; $x < count($menu_data); $x++)
+                            {
+                              $column_data = $menu_data[$x];
+                              echo"<li><label class='col-sm-6 col-sm-6 control-label'>ItemID:".$column_data[0]."</li>";
+                              echo"<li><label class='col-sm-6 col-sm-6 control-label'>Name:".$column_data[2]."</li>";
+                              echo"<li><label class='col-sm-6 col-sm-6 control-label'>Price:".$column_data[1]."</li>";
+                              echo"<li><label class='col-sm-6 col-sm-6 control-label'>Description:".$column_data[3]."</li>";
+                              echo "<button type='submit' class='btn btn-round btn-success' name='remove_item' value='".$column_data[0]."'>Remove</button>";
+                            /*  for($y =0; $y < count($column_data); $y++)
+                              {
+                                $curr_column_data = $column_data[$y];
+                                  echo "<li><label class='col-sm-6 col-sm-6 control-label'>".$curr_column_data."</label>
+                                  </li>";
+                              }
+                              */
+                            }
+                            echo "</ul>";
+                          ?>
+                              </div>                      
+                            </div>
+                      </form>
+                  </div>            
 				</div>
 			</div>
         </section>

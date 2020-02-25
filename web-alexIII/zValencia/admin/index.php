@@ -158,7 +158,9 @@
                           <span>Edit Page</span>	<!--Edit Website Stuff-->
                       </a>
                       <ul class="sub">
-                          <li><a  href="edit_home.php">Edit Home</a></li> 
+                          <li><a  href="edit_home.php">Edit Home</a></li>        
+                          <li><a  href="edit_gallery.php">Edit Gallery</a></li>
+                          <li><a  href="edit_delivery.php">Edit Delivery</a></li>   
                         <!--
                           <li><a  href="edit_home.php">Edit Home</a></li>			      
                           <li><a  href="edit_about.php">Edit About</a></li>		     
