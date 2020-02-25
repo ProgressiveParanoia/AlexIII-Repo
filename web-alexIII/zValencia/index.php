@@ -115,7 +115,7 @@
 		  <a href="gallery.php">Gallery</a>
 		  <a href="contacts.php">Contacts</a>
 		  <a href="reservation.php">Reservation</a>
-		  <a>Delivery</a>
+		  <a href="delivery.php">Delivery</a>
 		  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
 		    <i class="fa fa-bars"></i>
 		  </a>
@@ -155,7 +155,7 @@
 					?>
 				</ul>
 			</div>
-				
+
          <!--<div class="phone-number">Call us for reservation:<strong>1-800-123-1234</strong></div>-->	
       	</div> 
 		</div>
@@ -163,56 +163,6 @@
   <!--==============================content================================-->
    <section id="content">
    	<div class="zerogrid">
-   	<!--
-       <div class="block-1">
-	   	<div class="col-1-4">
-	       	<div class="pad border-right">
-	        	<div class="block-1-title">
-	            	<span>01.</span>
-	                <div class="text-1">Best<strong>cuisine</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">This website template has several pages:  Restaurant, Cuisine, Wine List, CookBook, Gallery, Contacts (note that contact us form - doesn't work).</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-		<div class="col-1-4">
-	        <div class="pad border-right">
-	        	<div class="block-1-title">
-	            	<span>02.</span>
-	                <div class="text-2">Good<strong>rest</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">Cras mattis tempor eros nec tristique. Sed sed felis arcu, vel vehicula augue. Maecenas faucibus sagittis cursus. Fusce tincidunt, tellus eget tristique cursus.</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-		<div class="col-1-4">
-	        <div class="pad border-right">
-	        	<div class="block-1-title">
-	            	<span>03.</span>
-	                <div class="text-3">Great<strong>service</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">Maecenas faucibus sagittis cursus. Fusce tincidunt, tellus eget tristique cursus, orci mi iaculis. sem, sit amet dictum velit velit eu magna. 
-	Nunc viverra nisi sed orci.</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-		<div class="col-1-4">
-	        <div class="pad">
-	        	<div class="block-1-title">
-	            	<span>04.</span>
-	                <div class="text-4">Best<strong>cooks</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">Fusce tincidunt, tellus eget tristique cursus, orci mi iaculis. sem, sit amet dictum velit velit eu magna. Nunc viverra nisi sed orci tincidunt at hendrerit orci.</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-       </div>
-
-   -->
        <div class="block-2 pad-1">
        	<div class="col-1-1">
 			<div class="wrap-col">
