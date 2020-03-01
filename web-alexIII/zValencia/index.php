@@ -1,3 +1,34 @@
+<?php
+  header('Expires: Sun, 01 Jan 2014 00:00:00 GMT');
+  header('Cache-Control: no-store, no-cache, must-revalidate');
+  header('Cache-Control: post-check=0, pre-check=0', FALSE);
+  header('Pragma: no-cache');
+
+  require_once "admin/config.php";
+
+#top header
+   	$welcome_header_1 = "";
+    $welcome_subheader = "";
+    $welcome_description = "";
+    if($_SERVER["REQUEST_METHOD"] == "GET")
+    {
+      $sql = "SELECT welcome_header_1, welcome_subheader, welcome_description FROM home";
+
+      if($statement = mysqli_prepare($link, $sql))
+      {
+        if(mysqli_stmt_execute($statement))
+        {
+         # mysqli_stmt_store_result($statement);
+         $result_set = ( mysqli_stmt_get_result($statement));
+         $rows = mysqli_fetch_array($result_set);
+         $welcome_header_1 = $rows[0]; 
+         $welcome_subheader = $rows[1];
+         $welcome_description = $rows[2];
+        }
+      }
+  	}
+#topheader end
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,7 +115,7 @@
 		  <a href="gallery.php">Gallery</a>
 		  <a href="contacts.php">Contacts</a>
 		  <a href="reservation.php">Reservation</a>
-		  <a>Delivery</a>
+		  <a href="delivery.php">Delivery</a>
 		  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
 		    <i class="fa fa-bars"></i>
 		  </a>
@@ -103,18 +134,28 @@
 
         <div id="slide">		
 	        <div class="rslides_container">
+	        	<!--
 				<ul class="rslides" id="slider">
-					<!--<li><img src="images/slider-1.jpg" alt="" /></li>
-	                <li><img src="images/slider-2.jpg" alt="" /></li>
-	                <li><img src="images/slider-3.jpg" alt="" /></li>
-	            -->
+
 	            	<li><img src="images/ALEX SLIDERS1.jpg" alt="" /></li>
 	            	<li><img src="images/ALEX SLIDERS2.jpg" alt="" /></li>
 	            	<li><img src="images/ALEX SLIDERS3.jpg" alt="" /></li>
 	            	<li><img src="images/ALEX SLIDERS4.jpg" alt="" /></li>
 				</ul>
+				-->
+				<ul class="rslides" id="slider">
+					<?php
+						$slider_dir = 'admin/uploads/home_slider';
+    					$slider_images = array_diff(scandir($slider_dir), array('..', '.'));
+						for($i = 2; $i < count($slider_images) + 2; $i++)
+						{
+							$current_slider_img = $slider_images[$i];
+							echo "<li><image width=600 height=480 src='".$slider_dir."/".$current_slider_img."'</li>";
+						}
+					?>
+				</ul>
 			</div>
-				
+
          <!--<div class="phone-number">Call us for reservation:<strong>1-800-123-1234</strong></div>-->	
       	</div> 
 		</div>
@@ -122,63 +163,13 @@
   <!--==============================content================================-->
    <section id="content">
    	<div class="zerogrid">
-   	<!--
-       <div class="block-1">
-	   	<div class="col-1-4">
-	       	<div class="pad border-right">
-	        	<div class="block-1-title">
-	            	<span>01.</span>
-	                <div class="text-1">Best<strong>cuisine</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">This website template has several pages:  Restaurant, Cuisine, Wine List, CookBook, Gallery, Contacts (note that contact us form - doesn't work).</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-		<div class="col-1-4">
-	        <div class="pad border-right">
-	        	<div class="block-1-title">
-	            	<span>02.</span>
-	                <div class="text-2">Good<strong>rest</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">Cras mattis tempor eros nec tristique. Sed sed felis arcu, vel vehicula augue. Maecenas faucibus sagittis cursus. Fusce tincidunt, tellus eget tristique cursus.</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-		<div class="col-1-4">
-	        <div class="pad border-right">
-	        	<div class="block-1-title">
-	            	<span>03.</span>
-	                <div class="text-3">Great<strong>service</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">Maecenas faucibus sagittis cursus. Fusce tincidunt, tellus eget tristique cursus, orci mi iaculis. sem, sit amet dictum velit velit eu magna. 
-	Nunc viverra nisi sed orci.</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-		<div class="col-1-4">
-	        <div class="pad">
-	        	<div class="block-1-title">
-	            	<span>04.</span>
-	                <div class="text-4">Best<strong>cooks</strong></div>
-	                <strong class="clear"></strong>
-	            </div>
-	            <p class="border-1">Fusce tincidunt, tellus eget tristique cursus, orci mi iaculis. sem, sit amet dictum velit velit eu magna. Nunc viverra nisi sed orci tincidunt at hendrerit orci.</p>
-	            <a href="#" class="link-1">read more</a>
-	        </div>
-		</div>
-       </div>
-
-   -->
        <div class="block-2 pad-1">
        	<div class="col-1-1">
 			<div class="wrap-col">
-	        	<h2 class="h2-line">Welcome to Alex III!<strong>Insert Other Messages Here</strong></h2>
+	        	<h2 class="h2-line"><?php echo $welcome_header_1;?><strong><?php echo $welcome_subheader;?></strong></h2>
 	            <div class="box-1">
 					<div class="col-1-2"><div class="wrap-col">
-	            		<div class="img-border"><img src="images/ALEXIII HISTORY.jpg" alt=""></div>
+	            		<div class="img-border"><img src="admin/uploads/index_images/description_image.jpg" alt=""></div>
 					</div></div>
 					<div class="col-1-2"><div class="wrap-col">
 		                <div class="extra-wrap">
@@ -187,7 +178,7 @@
 		                    <a href="#" class="link-1">read more</a>  
 		                	-->
 		                	<p> 
-		                		A very long message to show the history of Alex III (Insert CMS Refs)
+		                		<?php echo $welcome_description; ?>
 		                	</p>
 		                </div>
 					</div></div>
@@ -233,29 +224,6 @@
 	                	<p class="border-2"><span class="it-bold clr-1">Pancit</span><br>Best Pancit Ever </p>
 	                </div>
 				</div>
-				<!--
-				<div class="col-1-4">
-	                <div class="pad">
-	                	<div class="img-border"><img src="images/page1-img3.jpg" alt=""></div>
-	                	<p class="border-2"><span class="it-bold clr-1">Cras mattis tempor eros nec </span><br>tristique Sed sed felis arcu, vel vehicula augue maecenas faucibus sagittis.</p>
-	                	<a href="#" class="link">read more</a>
-	                </div>
-				</div>
-				<div class="col-1-4">
-	                <div class="pad">
-	                	<div class="img-border"><img src="images/page1-img4.jpg" alt=""></div>
-	                	<p class="border-2"><span class="it-bold clr-1">Sed sed felis arcu, vel </span><br>vehicula augue  maecenas faucibus sagittis cursus. Fusce tincidunt tellus eget.</p>
-	                	<a href="#" class="link">read more</a>
-	                </div>
-				</div>
-				<div class="col-1-4">
-	                <div class="pad">
-	                	<div class="img-border"><img src="images/page1-img5.jpg" alt=""></div>
-	                	<p class="border-2"><span class="it-bold clr-1">Maecenas faucibus sagittis</span><br>cursus fusce tincidunt, tellus eget tristique cursus orci mi iaculis sem sit amet.</p>
-	                	<a href="#" class="link">read more</a>
-	                </div>
-				</div>
-			-->
             </div>
         </div>
     
@@ -268,8 +236,8 @@
 <!--==============================footer=================================-->
  <footer>
  	<div class="zerogrid">
-      <p>?? 2012  Valencia<br>
-      Designed by <a rel="nofollow" href="http://www.templatemonster.com/" target="_blank" class="link">TemplateMonster</a> & <a rel="nofollow" href="https://www.zerotheme.com/" class="link">ZEROTHEME</a></p> 
+      <p>2020 Alex III<br>
+      </p> 
 	</div>
   </footer>	
 </div> 

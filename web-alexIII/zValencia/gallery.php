@@ -66,7 +66,7 @@
 		  <a href="gallery.php" class="active">Gallery</a>
 		  <a href="contacts.php">Contacts</a>
 		  <a href="reservation.php">Reservation</a>
-		  <a>Delivery</a>
+		  <a href="delivery.php">Delivery</a>
 		  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
 		    <i class="fa fa-bars"></i>
 		  </a>
@@ -142,6 +142,29 @@
        			<h2 class="h2-line-2">Our gallery:</h2>
             </div>
             <ul class="gallery">
+					<?php
+						$slider_dir = 'admin/uploads/gallery';
+    					$slider_images = array_diff(scandir($slider_dir), array('..', '.'));
+						for($i = 2; $i < count($slider_images) + 2; $i++)
+						{
+							$current_slider_img = $slider_images[$i];
+							if($current_slider_img)
+							{
+								if(strpos($current_slider_img, ".jpg"))
+								{
+									echo "<li><a class='plus' href='".$slider_dir."/".$current_slider_img."'><img src='".$slider_dir."/".$current_slider_img."'</li>";
+								}else if(strpos($current_slider_img, ".mp4"))
+								{
+									echo "<li><video width=640 height=480 controls>
+										<source src='".$slider_dir."/".$current_slider_img."' type='video/mp4'>
+									</video>
+									</li>";								
+								}
+							}
+						}
+					?>       
+
+					<!--    	
                	<li><a class="plus" href="images/gallery-1-big.jpg"><img src="images/gallery-1.jpg" alt=""></a></li>
 				<li><a class="plus" href="images/gallery-2-big.jpg"><img src="images/gallery-2.jpg" alt=""></a></li>
 				<li><a class="plus" href="images/gallery-3-big.jpg"><img src="images/gallery-3.jpg" alt=""></a></li>
@@ -154,6 +177,7 @@
                 <li><a class="plus" href="images/gallery-10-big.jpg"><img src="images/gallery-10.jpg" alt=""></a></li>
 				<li><a class="plus" href="images/gallery-11-big.jpg"><img src="images/gallery-11.jpg" alt=""></a></li>
 				<li><a class="plus" href="images/gallery-12-big.jpg"><img src="images/gallery-12.jpg" alt=""></a></li>
+			-->
             </ul>
         </div>
        </div>
@@ -162,10 +186,10 @@
     </section> 
 
 <!--==============================footer=================================-->
-  <footer>
+<footer>
  	<div class="zerogrid">
-      <p>© 2012  Valencia<br>
-      Designed by <a rel="nofollow" href="http://www.templatemonster.com/" target="_blank" class="link">TemplateMonster</a> & <a rel="nofollow" href="https://www.zerotheme.com/" class="link">ZEROTHEME</a></p> 
+      <p>2020 Alex III<br>
+      </p> 
 	</div>
   </footer>	
 </div> 

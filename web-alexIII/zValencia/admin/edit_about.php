@@ -274,6 +274,11 @@
                               <div class="col-sm-10">
                                   <input type="text" name="header" class="form-control">
                                   <span class="help-block">Change Header</span>
+                              </div>                            
+                              <label class="col-sm-2 col-sm-2 control-label">Header</label>
+                              <div class="col-sm-10">
+                                  <input type="text" name="header" class="form-control">
+                                  <span class="help-block">Change Header</span>
                               </div>
                               <label class="col-sm-2 col-sm-2 control-label">Description</label>
                               <div class="col-sm-10">
