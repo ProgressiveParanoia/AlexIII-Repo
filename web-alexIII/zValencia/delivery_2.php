@@ -60,8 +60,6 @@
     $user_cart[count($user_cart)][2] = $item_name;
     $user_cart[count($user_cart)][3] = $item_description;
 */
-
-    echo "Current cart: " . print_r($user_cart);
   }
 ?>
 <!DOCTYPE html>
