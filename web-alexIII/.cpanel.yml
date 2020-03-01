@@ -2,11 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/uozue6fnilbt/public_html/
-    - /bin/cp -R admin $DEPLOYPATH
-    - /bin/cp -R bat $DEPLOYPATH
-    - /bin/cp -R css $DEPLOYPATH
-    - /bin/cp -R fonts $DEPLOYPATH
-    - /bin/cp -R images $DEPLOYPATH
-    - /bin/cp -R zValencia $DEPLOYPATH
-    - /bin/cp -R js $DEPLOYPATH
-    - /bin/cp -R pic $DEPLOYPATH
+    - /bin/cp/index.php $DEPLOYPATH
