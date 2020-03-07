@@ -52,6 +52,7 @@
       <div class="topnav" id="myTopnav">
       <a href="index.php">Home</a>
       <a href="gallery.php">Gallery</a>
+      <a href="menu.php">Menu</a>
       <a href="contacts.php">Contacts</a>
       <a href="reservation.php" class="active">Reservation</a>
       <a href="delivery.php">Delivery</a>

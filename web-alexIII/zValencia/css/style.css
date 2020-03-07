@@ -44,8 +44,8 @@ h4 { font-size:24px; line-height:38px; color:#131313; font-weight:normal; font-s
 h5 { font-size:30px; line-height:36px; color:#131313; font-weight:normal; font-style:italic; }
 .h5-line { border-bottom:#d6d6d6 1px solid; padding-bottom:6px;}
 
-ul {margin:0; padding:0;list-style-image:none;}
-ul.list-1 li {padding:0px 0 12px 17px; line-height:18px; background:url(../images/marker.gif) 0 7px no-repeat;}
+ul {margin:0; padding:0;list-style-image:none; list-style-type: none;}
+ul.list-1 li {padding:0px 0 12px 17px; line-height:18px; background:url(../images/marker.gif) 0 7px no-repeat; }
 ul.list-1 li a { font-size:14px; color:#7cb6b6; line-height:18px; font-weight:bold; text-decoration:underline;}
 ul.list-1 li a:hover {text-decoration:none;}
 
@@ -81,6 +81,8 @@ ul.list-1 li a:hover {text-decoration:none;}
 
 .p1 {padding-bottom:18px;}
 .p2 {padding-bottom:13px;}
+
+
 
 /*********************************header*************************************/
 header {margin:0px auto; padding-top:27px; z-index:101; position:relative; }
@@ -206,6 +208,8 @@ ul.gallery li {float:left; display:inline-block; margin: 10px;}
 .box-4>div {text-align: center;}
 .box-4 h4 {margin-bottom:4px;}
 .box-4 p {margin-top:11px;}
+
+div.test {outline: 2px dashed black;}
 
 .col-4 {float:left;width:310px;}
 .col-4 h3, .col-5 h3 {padding-top:34px;}

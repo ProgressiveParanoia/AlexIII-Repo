@@ -51,6 +51,7 @@
       <div class="topnav" id="myTopnav">
       <a href="index.php">Home</a>
       <a href="gallery.php">Gallery</a>
+      <a href="menu.php">Menu</a>
       <a href="contacts.php" class="active">Contacts</a>
       <a href="reservation.php">Reservation</a>
       <a href="delivery.php">Delivery</a>

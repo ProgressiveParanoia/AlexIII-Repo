@@ -29,7 +29,7 @@
         $p4 = $address;
         if(mysqli_stmt_execute($statement))
         {
-          header('Location: delivery_2.php');
+          header("Location: delivery_2.php?id=". mysqli_stmt_insert_id($statement));
         }
       }
   }

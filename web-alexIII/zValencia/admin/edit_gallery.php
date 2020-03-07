@@ -162,6 +162,7 @@
                           <li><a  href="edit_home.php">Edit Home</a></li>        
                           <li><a  href="edit_gallery.php">Edit Gallery</a></li>  
                           <li><a  href="edit_delivery.php">Edit Delivery</a></li> 
+                          <li><a  href="edit_menu.php">Edit Menu</a></li>  
                       </ul>
                   </li>
                   <li class="sub-menu">
