@@ -10,7 +10,8 @@
   }
     
   require_once "config.php";
-  
+  $file_dir = "uploads/delivery_menu";
+
   $menu_data = null;
   $item_id = 0; 
   $item_price = 0;
@@ -35,6 +36,21 @@
         }
       }
     }
+  }
+
+    $sql = "SELECT * FROM delivery_menu";
+
+    if($statement_get = mysqli_prepare($link, $sql))
+    {
+      if(mysqli_stmt_execute($statement_get))
+      {
+        $result_set = mysqli_stmt_get_result($statement_get);
+        $menu_data = mysqli_fetch_all($result_set);
+      }
+    }
+
+if($_SERVER["REQUEST_METHOD"] == "POST")
+  {
     if(array_key_exists("item_submit", $_POST))
     {
       $item_title = $_POST['item_title'];
@@ -52,21 +68,39 @@
         $p4 = $item_description;
         if(mysqli_stmt_execute($statement))
         {
+          $item_id = mysqli_stmt_insert_id($statement);
         }
       }
+
+      $file = $_FILES['menu_image'];
+
+            $fileName = $file['name'];
+            $fileTmpName = $file['tmp_name']; //address
+            $fileSize = $file['size'];
+            $fileError = $file['error']; //error message
+            $fileType = $file['type']; //file extension
+
+            $fileExtension = explode('.', $fileName);
+            $fileActualExtensison = strtolower(end($fileExtension));
+
+            $allowedFileExtensions = array('jpg', 'jpeg', 'png', 'mp4');
+
+            if(in_array($fileActualExtensison, $allowedFileExtensions))
+            {
+                if($fileError === 0)
+                {
+                  $fileForm = strcasecmp($fileActualExtensison, "mp4") != 0 ? ".jpg" : ".mp4";
+                  $fileName = $item_id . $fileForm;
+                  $fileDestination = 'uploads/delivery_menu/' . $fileName;
+                  move_uploaded_file(($fileTmpName), ($fileDestination));
+                  header('Location: edit_delivery.php');
+               #   echo "You successfully uploaded the file!";
+                }else{
+                  echo "File error encountered! Error number:" . $fileError;
+                }
+            }
     }
   }
-
-    $sql = "SELECT * FROM delivery_menu";
-
-    if($statement_get = mysqli_prepare($link, $sql))
-    {
-      if(mysqli_stmt_execute($statement_get))
-      {
-        $result_set = mysqli_stmt_get_result($statement_get);
-        $menu_data = mysqli_fetch_all($result_set);
-      }
-    }
 ?>
 
 <!DOCTYPE html>
@@ -131,9 +165,13 @@
                   <h5 class="centered">Admin</h5>
                     
                   <li class="mt">
-                      <a class="active" href="index.php">
+                      <a href="index.php">
                           <i class="fa fa-dashboard"></i>
                           <span>Reservation</span>
+                      </a>
+                      <a href="order_tracker.php">
+                          <i class="fa fa-dashboard"></i>
+                          <span>Order Tracker</span>
                       </a>
                   </li>
 
@@ -145,7 +183,7 @@
                       <ul class="sub">
                           <li><a  href="edit_home.php">Edit Home</a></li>        
                           <li><a  href="edit_gallery.php">Edit Gallery</a></li>  
-                          <li><a  href="edit_delivery.php">Edit Delivery</a></li>
+                          <li><a class="active" href="edit_delivery.php">Edit Delivery</a></li>
                           <li><a  href="edit_menu.php">Edit Menu</a></li>    
                       </ul>
                   </li>
@@ -174,8 +212,14 @@
 					<div class="col-lg-12">		
                   <div class="form-panel">
                       <h4 class="mb"><i class="fa fa-angle-right"></i>Menu Item</h4>
-                      <form class="form-horizontal style-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post">
+                      <form class="form-horizontal style-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post" enctype="multipart/form-data">
                           <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Image</label>
+                                <div class="col-sm-10">
+                                  <!--<input type="text" name="header" class="form-control">-->
+                                    <input type="file" name="menu_image">
+                                  <span class="help-block">Change Image</span>
+                                </div>
                               <label class="col-sm-2 col-sm-2 control-label">Item Name</label>
                               <div class="col-sm-10">
                                   <input type="text" name="item_title" class="form-control" value="<?php echo $item_title?>">
@@ -209,18 +253,12 @@
                             for($x = 0; $x < count($menu_data); $x++)
                             {
                               $column_data = $menu_data[$x];
-                              echo"<li><label class='col-sm-6 col-sm-6 control-label'>ItemID:".$column_data[0]."</li>";
-                              echo"<li><label class='col-sm-6 col-sm-6 control-label'>Name:".$column_data[2]."</li>";
-                              echo"<li><label class='col-sm-6 col-sm-6 control-label'>Price:".$column_data[1]."</li>";
-                              echo"<li><label class='col-sm-6 col-sm-6 control-label'>Description:".$column_data[3]."</li>";
+                              echo "<li><img src='uploads/delivery_menu/".$column_data[0].".jpg' width=300 height=240></li>";
+                              echo"<li><label class='col-sm-3 col-sm-3 control-label'>ItemID:".$column_data[0]."</li>";
+                              echo"<li><label class='col-sm-3 col-sm-3 control-label'>Name:".$column_data[2]."</li>";
+                              echo"<li><label class='col-sm-3 col-sm-3 control-label'>Price:".$column_data[1]."</li>";
+                              echo"<li><label class='col-sm-3 col-sm-3 control-label'>Description:".$column_data[3]."</li>";
                               echo "<button type='submit' class='btn btn-round btn-success' name='remove_item' value='".$column_data[0]."'>Remove</button>";
-                            /*  for($y =0; $y < count($column_data); $y++)
-                              {
-                                $curr_column_data = $column_data[$y];
-                                  echo "<li><label class='col-sm-6 col-sm-6 control-label'>".$curr_column_data."</label>
-                                  </li>";
-                              }
-                              */
                             }
                             echo "</ul>";
                           ?>

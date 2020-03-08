@@ -199,9 +199,13 @@
                   <h5 class="centered">Admin</h5>
                     
                   <li class="mt">
-                      <a class="active" href="index.php">
+                      <a href="index.php">
                           <i class="fa fa-dashboard"></i>
                           <span>Reservation</span>
+                      </a>
+                      <a href="order_tracker.php">
+                          <i class="fa fa-dashboard"></i>
+                          <span>Order Tracker</span>
                       </a>
                   </li>
 
@@ -211,7 +215,7 @@
                           <span>Edit Page</span>    <!--Edit Website Stuff-->
                       </a>
                       <ul class="sub">
-                          <li><a  href="edit_home.php">Edit Home</a></li>        
+                          <li><a class="active" href="edit_home.php">Edit Home</a></li>        
                           <li><a  href="edit_gallery.php">Edit Gallery</a></li>
                           <li><a  href="edit_delivery.php">Edit Delivery</a></li>
                           <li><a  href="edit_menu.php">Edit Menu</a></li>   

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
   require_once "config.php";
   
   session_start();
@@ -146,11 +146,11 @@
               	  <h5 class="centered">Admin</h5>
               	  	
                   <li class="mt">
-                      <a class="active" href="index.php">
+                      <a href="index.php">
                           <i class="fa fa-dashboard"></i>
                           <span>Reservation</span>
                       </a>
-                      <a href="order_tracker.php">
+                      <a class="active" href="order_tracker.php">
                           <i class="fa fa-dashboard"></i>
                           <span>Order Tracker</span>
                       </a>
@@ -206,204 +206,6 @@
       <!--main content start-->
        <section id="main-content">
           <section class="wrapper">
-            <div class="tab-pane" id="chartjs">
-              <!--Pending -->
-              <div class="row mt">
-                <div class="col-lg-12">
-                  <div class="content-panel">
-                    <center><h1>Pending Reservations</h1>
-                    <?php 
-                      echo "<table>";
-                        //headers
-                        echo "<tr>";
-                        for($i = 0; $i < count($header_array); $i++)
-                        {
-                          $current_header = $header_array[$i];
-                          echo "<th>".$current_header."</th>";
-                        }
-                        echo "</tr>";
-                        //entries
-                        $row_size = count($rows);
-                        for($x = 0; $x < $row_size; $x++)
-                        {
-                          echo "<tr>";
-                          $reservation_entries = $rows[$x];
-                          $res_size = count($reservation_entries); //divide by two since its associative array is being counted too.
-                          for($i = 0; $i < $res_size; $i++)
-                          {
-                            $current_entry = $rows[$x][$i];//$reservation_entries[$i];
-                            if($i == 6 || $i == 7)
-                            {
-                              echo "<td>".$current_entry.":00</td>";
-                            }else{
-                              echo "<td>".$current_entry."</td>";
-                            }
-                          }
-                          echo "<form method='post'>";
-                          echo "<td><button type='submit' class='btn btn-round btn-success' name='res_accept' value='".$rows[$x][0]."''>Accept</button>";
-                          echo "<button type='submit' class='btn btn-round btn-failed' name='res_decline' value='".$rows[$x][0]."'>Cancel</button></td>";
-                          echo "</tr>";
-                          echo "</form>";
-     
-                        }
-                      echo "</table>";
-                    ?>
-                    </center>
-                </div>
-            </div>
-           </div>
-           <!-- accepted -->
-           <div class="row mt">
-                <div class="col-lg-12">
-                  <div class="content-panel">
-                    <center><h1>Accepted Reservations</h1>
-                    <?php 
-                      echo "<table>";
-                        //headers
-                        echo "<tr>";
-                        for($i = 0; $i < count($header_array); $i++)
-                        {
-                          $current_header = $header_array[$i];
-                          echo "<th>".$current_header."</th>";
-                        }
-                        echo "</tr>";
-                        //entries
-                        $row_size = count($rows_accepted);
-                        for($x = 0; $x < $row_size; $x++)
-                        {
-                          echo "<tr>";
-                          $reservation_entries = $rows_accepted[$x];
-                          $res_size = count($reservation_entries); //divide by two since its associative array is being counted too.
-                          for($i = 0; $i < $res_size; $i++)
-                          {
-                            $current_entry = $rows_accepted[$x][$i];//$reservation_entries[$i];
-                            if($i == 6 || $i == 7)
-                            {
-                              echo "<td>".$current_entry.":00</td>";
-                            }else{
-                              echo "<td>".$current_entry."</td>";
-                            }
-                          }
-                          echo "<form method='post'>";
-                          echo "<td><button type='submit' class='btn btn-round btn-success' name='res_accept' value='".$rows_accepted[$x][0]."''>Accept</button>";
-                          echo "<button type='submit' class='btn btn-round btn-failed' name='res_decline' value='".$rows_accepted[$x][0]."'>Cancel</button></td>";
-                          echo "</tr>";
-                          echo "</form>";
-     
-                        }
-                      echo "</table>";
-                    ?>
-                    </center>
-                </div>
-            </div>
-           </div>
-          <!-- decline -->
-           <div class="row mt">
-                <div class="col-lg-12">
-                  <div class="content-panel">
-                    <center><h1>Cancelled Reservations</h1>
-                    <?php 
-                      echo "<table>";
-                        //headers
-                        echo "<tr>";
-                        for($i = 0; $i < count($header_array); $i++)
-                        {
-                          $current_header = $header_array[$i];
-                          echo "<th>".$current_header."</th>";
-                        }
-                        echo "</tr>";
-                        //entries
-                        $row_size = count($rows_decline);
-                        for($x = 0; $x < $row_size; $x++)
-                        {
-                          echo "<tr>";
-                          $reservation_entries = $rows_decline[$x];
-                          $res_size = count($reservation_entries); //divide by two since its associative array is being counted too.
-                          for($i = 0; $i < $res_size; $i++)
-                          {
-                            $current_entry = $rows_decline[$x][$i];//$reservation_entries[$i];
-                            if($i == 6 || $i == 7)
-                            {
-                              echo "<td>".$current_entry.":00</td>";
-                            }else{
-                              echo "<td>".$current_entry."</td>";
-                            }
-                          }
-                          echo "<form method='post'>";
-                          echo "<td><button type='submit' class='btn btn-round btn-success' name='res_accept' value='".$rows_decline[$x][0]."''>Accept</button>";
-                          echo "<button type='submit' class='btn btn-round btn-failed' name='res_decline' value='".$rows_decline[$x][0]."'>Cancel</button></td>";
-                          echo "</tr>";
-                          echo "</form>";
-     
-                        }
-                      echo "</table>";
-                    ?>
-                    </center>
-                </div>
-            </div>
-           </div>
-            <!--
-          <h3><i class="fa fa-angle-right"></i> Graph</h3>
-        -->
-              <!-- page start-->
-              <!--
-              <div class="tab-pane" id="chartjs">
-                  <div class="row mt">
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-                <h4><i class="fa fa-angle-right"></i> Doughnut</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="doughnut" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-                <h4><i class="fa fa-angle-right"></i> Line</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="line" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="row mt">
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-                <h4><i class="fa fa-angle-right"></i> Radar</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="radar" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-                <h4><i class="fa fa-angle-right"></i> Polar Area</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="polarArea" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="row mt">
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-                <h4><i class="fa fa-angle-right"></i> Bar</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="bar" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-lg-6">
-                          <div class="content-panel">
-                <h4><i class="fa fa-angle-right"></i> Pie</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="pie" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            -->
               <!-- page end-->
           </section>          
       </section><!-- /MAIN CONTENT -->

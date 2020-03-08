@@ -100,7 +100,8 @@ $state_value = -1;
       <a href="menu.php">Menu</a>
       <a href="contacts.php">Contacts</a>
       <a href="reservation.php">Reservation</a>
-      <a href="delivery.php" class="active">Delivery</a>
+      <a href="delivery.php">Delivery</a>
+      <a href="tracker.php" class="active">Tracker</a>
       <a href="javascript:void(0);" class="icon" onclick="myFunction()">
         <i class="fa fa-bars"></i>
       </a>
@@ -124,11 +125,10 @@ $state_value = -1;
        <div class="block-2 pad-2">
           <center>
             <form id="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post">
-              <div class="test">
               <br>
               <br>
+              <h4>Order Tracker</h4>
               <input type="text" name="session_id" class="form-control" value="Input session number">
-              </div>
               <br>
             <button type="submit" class="btn btn-round btn-success" name ="track_delivery">Track Delivery Number</button>
           </form>

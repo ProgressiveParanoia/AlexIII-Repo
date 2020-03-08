@@ -147,9 +147,13 @@
                   <h5 class="centered">Admin</h5>
                     
                   <li class="mt">
-                      <a class="active" href="index.php">
+                      <a href="index.php">
                           <i class="fa fa-dashboard"></i>
                           <span>Reservation</span>
+                      </a>
+                      <a href="order_tracker.php">
+                          <i class="fa fa-dashboard"></i>
+                          <span>Order Tracker</span>
                       </a>
                   </li>
 
