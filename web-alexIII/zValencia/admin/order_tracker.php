@@ -7,76 +7,43 @@
     header("Location: login.php");
   }
 
-  //accept/reject actions
+  $delivery_data = null;
+  $header_array = array("ID", "NAME", "EMAIL", "CONTACT NUMBER", "ADDRESS", "CART", "ORDER STATE");
+
+  $sql = "SELECT * FROM deliveries";
+
+  if($statement_get = mysqli_prepare($link, $sql))
+  {
+    if(mysqli_stmt_execute($statement_get))
+    {
+      $result_set = mysqli_stmt_get_result($statement_get);
+      $delivery_data = mysqli_fetch_all($result_set);
+    }
+  }  
+
   if($_SERVER["REQUEST_METHOD"] == "POST")
   {
-    if(array_key_exists("res_accept", $_POST))  
+    if(array_key_exists("save_delivery", $_POST))
     {
-      $accepted_entry = $_POST["res_accept"];
-      $sql_accept = "UPDATE reservations SET verified = 1, changed_verification = 1 WHERE res_id = ?";
+      $batched_ids = explode(" ",$_POST['save_delivery']);
+      $idx = $batched_ids[1];
+
+      $delivery_states = $_POST['delivery_state'];
+      $target_entry = $delivery_states[$idx];
+
+      $sql_accept = "UPDATE deliveries SET state = ".$target_entry." WHERE res_id = ". $delivery_data[$idx][0];
       if($statement = mysqli_prepare($link, $sql_accept))
       {
-        mysqli_stmt_bind_param($statement, "s", $accepted_entry);
-
         if(mysqli_stmt_execute($statement)){
+
         }
       }
       mysqli_stmt_close($statement);
-    }
-    else
-    if(array_key_exists("res_decline", $_POST))
-    {
-      $declined_entry = $_POST["res_decline"];
-      $sql_decline = "UPDATE reservations SET verified = 0, changed_verification = 1 WHERE res_id = ?";
-      if($statement = mysqli_prepare($link, $sql_decline))
-      {
-        mysqli_stmt_bind_param($statement, "s", $declined_entry);
 
-        if(mysqli_stmt_execute($statement)){
-        }
-      }
-      mysqli_stmt_close($statement);
+      //print_r($delivery_data[$idx]);
     }
   }
-//end accept/reject  
-
-// SETUP PENDING RESERVATION TABLE
-  $header_array = array("ID", "NAME", "EMAIL", "CONTACT NUMBER", "NOTES", "RESERVATION DATE", "TIME START", "TIME END", "BRANCH ADDRESS");
-  $reservation_entries = null;
   
-  $sql_pending = "SELECT res_id, res_name, res_email, res_tel, res_notes, res_date, res_start, res_end, branch_address FROM reservations WHERE changed_verification = 0";
-
-    if($statement = mysqli_prepare($link, $sql_pending))
-    {
-        if(mysqli_stmt_execute($statement))
-        {
-          $result_set = ( mysqli_stmt_get_result($statement));
-          $rows = mysqli_fetch_all($result_set);
-        }
-    }
-    //END PENDING
-    //accepted
-    $sql_accepted = "SELECT res_id, res_name, res_email, res_tel, res_notes, res_date, res_start, res_end, branch_address FROM reservations WHERE changed_verification = 1 AND verified = 1";
-
-    if($statement = mysqli_prepare($link, $sql_accepted))
-    {
-        if(mysqli_stmt_execute($statement))
-        {
-          $result_set = ( mysqli_stmt_get_result($statement));
-          $rows_accepted = mysqli_fetch_all($result_set);
-        }
-    }
-    //end accepted
-    $sql_decline = "SELECT res_id, res_name, res_email, res_tel, res_notes, res_date, res_start, res_end, branch_address FROM reservations WHERE changed_verification = 1 AND verified = 0";
-
-    if($statement = mysqli_prepare($link, $sql_decline))
-    {
-        if(mysqli_stmt_execute($statement))
-        {
-          $result_set = ( mysqli_stmt_get_result($statement));
-          $rows_decline = mysqli_fetch_all($result_set);
-        }
-    }
 ?>
 
 <!DOCTYPE html>
@@ -164,16 +131,9 @@
                       <ul class="sub">
                           <li><a  href="edit_home.php">Edit Home</a></li>        
                           <li><a  href="edit_gallery.php">Edit Gallery</a></li>
+                          <li><a  href="edit_menu.php">Edit Menu</a></li>
                           <li><a  href="edit_delivery.php">Edit Delivery</a></li>   
-                        <!--
-                          <li><a  href="edit_home.php">Edit Home</a></li>			      
-                          <li><a  href="edit_about.php">Edit About</a></li>		     
-                          <li><a  href="edit_management.php">Edit Management</a></li>			      
-                          <li><a  href="edit_how_to.php">Edit How to</a></li>		      
-						  <li><a  href="edit_gallery.php">Edit Gallery</a></li>		      
-						  <li><a  href="edit_contacts.php">Edit Contacts</a></li>		      
-            -->
-					  </ul>
+					           </ul>
                   </li>
                   <!--
                   <li class="sub-menu">
@@ -206,6 +166,105 @@
       <!--main content start-->
        <section id="main-content">
           <section class="wrapper">
+            <div class="tab-pane" id="chartjs">
+              <!--Pending -->
+              <div class="row mt">
+                <div class="col-lg-12">
+                  <div class="content-panel">
+                    <center><h1>Delivery Requests</h1>
+                    <?php 
+                      echo "<table>";
+                        //headers
+                        echo "<tr>";
+                        echo "<form method='post'>";
+                        for($i = 0; $i < count($header_array); $i++)
+                        {
+                          $current_header = $header_array[$i];
+                          echo "<th>".$current_header."</th>";
+                        }   
+                          //$header_array = array("ID", "NAME", "EMAIL", "CONTACT NUMBER", "ADDRESS", "CART", "ORDER STATE");
+                        //0 => ID, 1 => NAME, 2 => EMAIL, 3 => CONTACT #, 4 => ADDRESS, 5 => CART, 6 => ORDER STATE
+                        echo "</tr>";
+                        $row_size = count($delivery_data);
+                        for($x = 0; $x < $row_size; $x++)
+                        {
+                          echo "<tr>";
+                          $current_entry = null;
+                          $delivery_entry = $delivery_data[$x];
+                          $res_size = count($delivery_entry);
+                          //print_r($delivery_entry);//
+                          for($y = 0; $y < $res_size; $y++)
+                          {
+                            $current_entry = $delivery_entry[$y];
+                            if($y == 6)
+                            {
+                              if($delivery_entry[6] == 0)
+                              {
+                              echo "<td>";
+                              echo "<select name='delivery_state[]'>";
+                                echo "<option value='0' selected>Order Placed</option>";
+                                echo "<option value='1'>Delivery On Its Way</option>";
+                                echo "<option value='2'>Order Received</option>";
+                              echo "</select>";
+                              echo "</td>";
+                              }else if($delivery_entry[6] == 1)
+                              {
+                              echo "<td>";
+                              echo "<select name='delivery_state[]'>";
+                                echo "<option value='0'>Order Placed</option>";
+                                echo "<option value='1' selected>Delivery On Its Way</option>";
+                                echo "<option value='2'>Order Received</option>";
+                              echo "</select>";
+                              echo "</td>";
+                              }else if($delivery_entry[6] == 2)
+                              {
+                              echo "<td>";
+                              echo "<select name='delivery_state[]'>";
+                                echo "<option value='0'>Order Placed</option>";
+                                echo "<option value='1'>Delivery On Its Way</option>";
+                                echo "<option value='2'selected>Order Received</option>";
+                              echo "</select>";
+                              echo "</td>";
+                              }
+                            }else if($y == 5)
+                            {
+                              $json_arr = json_decode($current_entry);
+
+                              $method_name= "item_1";
+                              $method_idx = 1;
+                              echo "<td><ul>";
+                              while(empty($json_arr->$method_name) != 1)
+                              {
+                                $column_data = $json_arr->$method_name;
+                                $id = $column_data[0];
+
+                                echo"<li><label name='name' value='".$column_data[2]."'>Name:".$column_data[2]."</li>";
+                                echo"<li><label name='price' value='".$column_data[1]."'>Price:".$column_data[1]."</li>";
+                                $method_idx++;
+                                $method_name = "item_" . $method_idx;
+                               }
+                               echo "</ul></td>";
+                            }
+                            else
+                            {
+                              echo "<td>".$current_entry."</td>";
+                            }
+                          }
+                          echo "<td>";
+                              echo "<button type='submit' name='save_delivery' value='".$current_entry[0]." ".$x."'>Save Data</button>";
+                          //echo "</form>";
+                          echo "</td>";
+                        }
+                        echo "</form>";
+                        echo "</tr>";
+                        //entries
+                      echo "</table>";
+                    ?>
+                    </center>
+                </div>
+            </div>
+           </div>
+            </div>
               <!-- page end-->
           </section>          
       </section><!-- /MAIN CONTENT -->
@@ -234,28 +293,6 @@
     <script src="assets/js/chart-master/Chart.js"></script>
     <script src="assets/js/chartjs-conf.js"></script>
 	
-  <!--
-	<script type="text/javascript">
-        $(document).ready(function () {
-        var unique_id = $.gritter.add({
-            // (string | mandatory) the heading of the notification
-            title: 'Presidential Car Museum',
-            // (string | mandatory) the text inside the notification
-            text: 'Official admin website for Presidential Car Museum',
-            // (string | optional) the image to display on the left
-            image: 'assets/img/paragon1.png',
-            // (bool | optional) if you want it to fade out on its own or just sit there
-            sticky: true,
-            // (int | optional) the time you want it to be alive for before fading out
-            time: '3',
-            // (string | optional) the class name you want to apply to that specific message
-            class_name: 'my-sticky-class'
-        });
-
-        return false;
-        });
-	</script>
-	-->
 	<script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -290,8 +327,5 @@
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-	
-  
-
   </body>
 </html>
