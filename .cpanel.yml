@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/uozue6fnilbt/public_html/test
-    - /bin/cp/ -r * $DEPLOYPATH
+    - cp /home/uozue6fnilbt/repositories/AlexIII-Repo $DEPLOYPATH
