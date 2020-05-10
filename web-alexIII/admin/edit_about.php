@@ -6,7 +6,6 @@
   session_start();
   if(!isset($_SESSION['username']) && empty($_SESSION['username']) === true)
   {
-    //echo "<script>location = 'http://presidentialcarmuseum.000webhostapp.com/admin/dashgum/assets/login.php'</script>";
     header("Location: login.php");
   }
   require_once "config.php";
@@ -16,7 +15,6 @@
 
   $header = "";
   $description = "";
-
 
   if($_SERVER["REQUEST_METHOD"] == "POST")
   {
@@ -272,6 +270,11 @@
                   	  <h4 class="mb"><i class="fa fa-angle-right"></i> Edit</h4>
                       <form class="form-horizontal style-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post" enctype="multipart/form-data">
                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Header</label>
+                              <div class="col-sm-10">
+                                  <input type="text" name="header" class="form-control">
+                                  <span class="help-block">Change Header</span>
+                              </div>                            
                               <label class="col-sm-2 col-sm-2 control-label">Header</label>
                               <div class="col-sm-10">
                                   <input type="text" name="header" class="form-control">

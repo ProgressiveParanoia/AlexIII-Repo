@@ -1,0 +1,4 @@
+[08-Mar-2020 17:43:09 Europe/Berlin] PHP Parse error:  syntax error, unexpected 'define' (T_STRING), expecting function (T_FUNCTION) or const (T_CONST) in /home/uozue6fnilbt/public_html/reservation/lib/2b-lib-res.php on line 8
+[08-Mar-2020 17:47:00 Europe/Berlin] PHP Parse error:  syntax error, unexpected 'define' (T_STRING), expecting function (T_FUNCTION) or const (T_CONST) in /home/uozue6fnilbt/public_html/reservation/lib/2b-lib-res.php on line 4
+[08-Mar-2020 17:56:47 Europe/Berlin] PHP Warning:  Use of undefined constant DB_USERNAME - assumed 'DB_USERNAME' (this will throw an Error in a future version of PHP) in /home/uozue6fnilbt/public_html/reservation/lib/2b-lib-res.php on line 18
+[08-Mar-2020 17:56:53 Europe/Berlin] PHP Warning:  Use of undefined constant DB_USERNAME - assumed 'DB_USERNAME' (this will throw an Error in a future version of PHP) in /home/uozue6fnilbt/public_html/reservation/lib/2b-lib-res.php on line 18
