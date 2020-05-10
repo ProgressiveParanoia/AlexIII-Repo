@@ -3,4 +3,4 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/uozue6fnilbt/public_html/test/
     - export SOURCEPATH=/home/uozue6fnilbt/repositories/AlexIII-Repo/web-alexIII/zValencia
-    - cp $SOURCEPATH $DEPLOYPATH
+    - /bin/cp -R $SOURCEPATH $DEPLOYPATH
