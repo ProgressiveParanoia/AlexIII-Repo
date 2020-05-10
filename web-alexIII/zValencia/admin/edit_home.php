@@ -202,10 +202,16 @@
                       <a href="index.php">
                           <i class="fa fa-dashboard"></i>
                           <span>Reservation</span>
+                          <a href="edit_automated_reservation.php">
+                            Edit Automated Reservation
+                          </a>
                       </a>
                       <a href="order_tracker.php">
                           <i class="fa fa-dashboard"></i>
                           <span>Order Tracker</span>
+                          <a href="edit_automated_order.php">
+                            Edit Automated Message
+                          </a>
                       </a>
                   </li>
 
