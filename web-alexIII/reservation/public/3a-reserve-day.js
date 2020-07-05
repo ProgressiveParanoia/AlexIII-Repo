@@ -74,12 +74,12 @@ var res = {
     data.append('name', document.getElementById("res_name").value);
     data.append('email', document.getElementById("res_email").value);
     data.append('tel', document.getElementById("res_tel").value);
-    data.append('count', document.getElementById("res_persons_count").value);
+    data.append('res_persons_count', document.getElementById("res_persons_count").value);
     data.append('res_start', start_time);
     data.append('res_end', end_time);
     data.append('branch_address', branch_address);
     data.append('date', select);
-    data.append('package', package);
+    data.append('res_package', package);
     // AJAX call
     var xhr = new XMLHttpRequest();
     alert("Post!");
