@@ -2,5 +2,5 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/uozue6fnilbt/public_html/
-    - export SOURCEPATH=/home/uozue6fnilbt/repositories/AlexIII-Repo/web-alexIII/
+    - export SOURCEPATH=/home/uozue6fnilbt/repositories/AlexIII-Repo/web-alexIII/.
     - /bin/cp -R $SOURCEPATH $DEPLOYPATH
