@@ -94,7 +94,7 @@
             <input type="text" id="res_notes"/>
             -->
             <label for="res_persons_count">Number of People</label>
-            <input type="text" required id="res_persons_count"/>
+            <input type="number" required id="res_persons_count"/>
             <label>Reservation Date</label>
             <div id="res_date" class="calendar"></div>
             <br/>
