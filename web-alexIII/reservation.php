@@ -22,7 +22,7 @@
           'sitekey' : '6LfRY-EUAAAAAFP3Eowrv1NXKVJGCM5dVS-n1XcW',
           'callback' : onCaptchaSubmit
         });
-      };c
+      };
     </script>
 
 
