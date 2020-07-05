@@ -67,7 +67,7 @@ var res = {
     var end_time = document.querySelector("#res_date select.end_time").value;
 
     var branch_address = document.querySelector("#res_date select.branch").value;
-    var package = document.querySelector("#res_package select.package").value;
+    var package = document.querySelector("#res_date select.package").value;
     // AJAX data
     var data = new FormData();
     data.append('req', 'book-day');
