@@ -160,14 +160,14 @@ if ($_POST['req']) { switch ($_POST['req']) {
       echo "<option value='Tomas Morato'>Tomas Morato</option>";
       echo "<option value='Wilson'>Wilson</option>";
     echo "</select>";
-
+/*
     echo "<label>Branch</label>";
     echo"<select class='branch'>";
       echo "<option value='PackageA'>Package A</option>";
       echo "<option value='PackageB'>Package B</option>";
       echo "<option value='PackageC'>Package C</option>";
     echo "</select>";
-
+*/
     // --- END RESERVATION DATE MONTH/YEAR INPUT ---
     
     // Dates
