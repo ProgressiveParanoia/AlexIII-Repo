@@ -74,8 +74,8 @@ var res = {
     data.append('name', document.getElementById("res_name").value);
     data.append('email', document.getElementById("res_email").value);
     data.append('tel', document.getElementById("res_tel").value);
-    data.append('notes', document.getElementById("res_notes").value);
-    data.append('res_persons_count', document.getElementById("res_persons_count").value);
+    //data.append('notes', document.getElementById("res_notes").value);
+    data.append('count', document.getElementById("res_persons_count").value);
     data.append('res_start', start_time);
     data.append('res_end', end_time);
     data.append('branch_address', branch_address);
@@ -83,6 +83,7 @@ var res = {
     data.append('package', package);
     // AJAX call
     var xhr = new XMLHttpRequest();
+    alert("Post!");
     xhr.open('POST', "reservation/2c-ajax-reserve.php", true);
     xhr.onload = function(){
       var res = JSON.parse(this.response);
