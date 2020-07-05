@@ -74,7 +74,6 @@ var res = {
     data.append('name', document.getElementById("res_name").value);
     data.append('email', document.getElementById("res_email").value);
     data.append('tel', document.getElementById("res_tel").value);
-    //data.append('notes', document.getElementById("res_notes").value);
     data.append('count', document.getElementById("res_persons_count").value);
     data.append('res_start', start_time);
     data.append('res_end', end_time);
