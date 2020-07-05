@@ -161,6 +161,13 @@ if ($_POST['req']) { switch ($_POST['req']) {
       echo "<option value='Wilson'>Wilson</option>>";
     echo "</select>";
 
+    echo "<label>Party Package</label>";
+    echo "<select class='package'>";
+      echo "<option value='Package_A'>Package A</option>";
+      echo "<option value='Package_B'>Package B</option>";
+      echo "<option value='Package_C'>Package C</option>";
+    echo "</select>";
+
     // --- END RESERVATION DATE MONTH/YEAR INPUT ---
     
     // Dates

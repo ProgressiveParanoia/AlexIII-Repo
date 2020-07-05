@@ -88,8 +88,12 @@
             <input type="email" required id="res_email"/>
             <label for="res_tel">Telephone Number</label>
             <input type="text" required id="res_tel"/>
+            <!--
             <label for="res_notes">Notes (if any)</label>
-            <input type="text" id="res_notes"/>
+            <input type="text" id="res_notes"/>  
+            -->
+            <label for="res_persons_count">Number of persons </label>
+            <input type="text" required id="res_persons_count"/> 
             <label>Reservation Date</label>
             <div id="res_date" class="calendar"></div>
             <button id="res_go" disabled>

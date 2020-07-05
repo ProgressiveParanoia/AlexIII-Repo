@@ -64,6 +64,7 @@ var res = {
     var end_time = document.querySelector("#res_date select.end_time").value;
 
     var branch_address = document.querySelector("#res_date select.branch").value;
+    var package = document.querySelector("#res_package select.package").value;
     // AJAX data
     var data = new FormData();
     data.append('req', 'book-day');
@@ -71,10 +72,12 @@ var res = {
     data.append('email', document.getElementById("res_email").value);
     data.append('tel', document.getElementById("res_tel").value);
     data.append('notes', document.getElementById("res_notes").value);
+    data.append('res_persons_count', document.getElementById("res_persons_count").value);
     data.append('res_start', start_time);
     data.append('res_end', end_time);
     data.append('branch_address', branch_address);
     data.append('date', select);
+    data.append('res_package', package);
 
     // AJAX call
     var xhr = new XMLHttpRequest();

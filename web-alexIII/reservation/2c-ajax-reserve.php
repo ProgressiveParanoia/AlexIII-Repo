@@ -155,16 +155,23 @@ if ($_POST['req']) { switch ($_POST['req']) {
 
     echo "<label>Branch</label>";
     echo"<select class='branch'>";
-      echo "<option value='Fairview'>Fairview</option>>";
-      echo "<option value='Matalino'>Matalino</option>>";
-      echo "<option value='Tomas Morato'>Tomas Morato</option>>";
-      echo "<option value='Wilson'>Wilson</option>>";
+      echo "<option value='Fairview'>Fairview</option>";
+      echo "<option value='Matalino'>Matalino</option>";
+      echo "<option value='Tomas Morato'>Tomas Morato</option>";
+      echo "<option value='Wilson'>Wilson</option>";
+    echo "</select>";
+
+    echo "<label>Party Package</label>";
+    echo "<select class='package'>";
+      echo "<option value='Package_A'>Package A</option>";
+      echo "<option value='Package_B'>Package B</option>";
+      echo "<option value='Package_C'>Package C</option>";
     echo "</select>";
 
     // --- END RESERVATION DATE MONTH/YEAR INPUT ---
     
     // Dates
-    echo "<table><tr class='days'>";
+  //  echo "<table><tr class='days'>";
 
     // Firstr reow - Days of week
     $days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
