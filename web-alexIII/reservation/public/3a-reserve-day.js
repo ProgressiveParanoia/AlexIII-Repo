@@ -94,7 +94,7 @@ var res = {
       }
       // ERROR - show error
       else {
-        alert(res.message);
+        alert(res.status);
       }
     };
     xhr.send(data);
