@@ -41,10 +41,10 @@
 //end accept/reject  
 
 // SETUP PENDING RESERVATION TABLE
-  $header_array = array("ID", "NAME", "EMAIL", "CONTACT NUMBER", "NOTES", "RESERVATION DATE", "TIME START", "TIME END", "BRANCH ADDRESS");
+  $header_array = array("ID", "NAME", "EMAIL", "CONTACT NUMBER", "NOTES", "RESERVATION DATE", "TIME START", "TIME END", "BRANCH ADDRESS", "PARTY PACKAGE");
   $reservation_entries = null;
   
-  $sql_pending = "SELECT res_id, res_name, res_email, res_tel, res_notes, res_date, res_start, res_end, branch_address FROM reservations WHERE changed_verification = 0";
+  $sql_pending = "SELECT res_id, res_name, res_email, res_tel, res_notes, res_date, res_start, res_end, branch_address, res_package FROM reservations WHERE changed_verification = 0";
 
     if($statement = mysqli_prepare($link, $sql_pending))
     {
@@ -56,7 +56,7 @@
     }
     //END PENDING
     //accepted
-    $sql_accepted = "SELECT res_id, res_name, res_email, res_tel, res_notes, res_date, res_start, res_end, branch_address FROM reservations WHERE changed_verification = 1 AND verified = 1";
+    $sql_accepted = "SELECT res_id, res_name, res_email, res_tel, res_notes, res_date, res_start, res_end, branch_address, res_package FROM reservations WHERE changed_verification = 1 AND verified = 1";
 
     if($statement = mysqli_prepare($link, $sql_accepted))
     {
@@ -67,7 +67,7 @@
         }
     }
     //end accepted
-    $sql_decline = "SELECT res_id, res_name, res_email, res_tel, res_notes, res_date, res_start, res_end, branch_address FROM reservations WHERE changed_verification = 1 AND verified = 0";
+    $sql_decline = "SELECT res_id, res_name, res_email, res_tel, res_notes, res_date, res_start, res_end, branch_address, res_package FROM reservations WHERE changed_verification = 1 AND verified = 0";
 
     if($statement = mysqli_prepare($link, $sql_decline))
     {
