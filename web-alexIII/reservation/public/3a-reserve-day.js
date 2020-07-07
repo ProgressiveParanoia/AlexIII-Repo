@@ -63,25 +63,26 @@ var res = {
     select = document.querySelector("#res_date select.month").value + "-" + select;
     select = document.querySelector("#res_date select.year").value + "-" + select;
 
-
     var start_time = document.querySelector("#res_date select.time_start").value;
     var end_time = document.querySelector("#res_date select.end_time").value;
 
     var branch_address = document.querySelector("#res_date select.branch").value;
+    var package = document.querySelector("#res_date select.package").value;
     // AJAX data
     var data = new FormData();
     data.append('req', 'book-day');
     data.append('name', document.getElementById("res_name").value);
     data.append('email', document.getElementById("res_email").value);
     data.append('tel', document.getElementById("res_tel").value);
-    data.append('notes', document.getElementById("res_notes").value);
+    data.append('count', document.getElementById("res_persons_count").value);
     data.append('res_start', start_time);
     data.append('res_end', end_time);
     data.append('branch_address', branch_address);
     data.append('date', select);
-
+    data.append('package', package);
     // AJAX call
     var xhr = new XMLHttpRequest();
+    alert("Post!");
     xhr.open('POST', "reservation/2c-ajax-reserve.php", true);
     xhr.onload = function(){
       var res = JSON.parse(this.response);
@@ -93,7 +94,7 @@ var res = {
       }
       // ERROR - show error
       else {
-        alert(res.message);
+        alert(res.status);
       }
     };
     xhr.send(data);

@@ -91,7 +91,7 @@ class Res {
   }
 
   /* [WHOLE DAY BOOKING] */
-  function bookDay ($name, $email, $tel, $date, $start_time, $end_time,$address,$notes="") {
+  function bookDay ($name, $email, $tel, $date, $start_time, $end_time,$address,$person_count, $package, $notes="") {
   // bookDay() : reserve for the entire day
 
     // Check if customer already booked on the day
@@ -104,8 +104,8 @@ class Res {
     }
 
     // Process reservation
-    $sql = "INSERT INTO `reservations` (`res_name`, `res_email`, `res_tel`, `res_notes`, `res_date`, `res_start`, `res_end`, `branch_address`) VALUES (?,?,?,?,?,?,?,?)";
-    $cond = [$name, $email, $tel, $notes, $date, $start_time, $end_time, $address];
+    $sql = "INSERT INTO `reservations` (`res_name`, `res_email`, `res_tel`, `res_notes`, `res_date`, `res_start`, `res_end`, `branch_address`, `res_persons_count`,`res_package`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    $cond = [$name, $email, $tel, $notes, $date, $start_time, $end_time, $address, $person_count, $package];
     return $this->exec($sql, $cond);
   }
 

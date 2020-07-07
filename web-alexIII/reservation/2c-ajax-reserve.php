@@ -155,14 +155,21 @@ if ($_POST['req']) { switch ($_POST['req']) {
 
     echo "<label>Branch</label>";
     echo"<select class='branch'>";
-      echo "<option value='Fairview'>Fairview</option>>";
-      echo "<option value='Matalino'>Matalino</option>>";
-      echo "<option value='Tomas Morato'>Tomas Morato</option>>";
-      echo "<option value='Wilson'>Wilson</option>>";
+      echo "<option value='Fairview'>Fairview</option>";
+      echo "<option value='Matalino'>Matalino</option>";
+      echo "<option value='Tomas Morato'>Tomas Morato</option>";
+      echo "<option value='Wilson'>Wilson</option>";
+    echo "</select>";
+
+    echo "<label>Party Package</label>";
+    echo"<select class='package'>";
+      echo "<option value='Package_A'>Package A</option>";
+      echo "<option value='Package_B'>Package B</option>";
+      echo "<option value='Package_C'>Package C</option>";
     echo "</select>";
 
     // --- END RESERVATION DATE MONTH/YEAR INPUT ---
-    
+
     // Dates
     echo "<table><tr class='days'>";
 
@@ -214,7 +221,7 @@ if ($_POST['req']) { switch ($_POST['req']) {
     // Save reservation to database
     $pass = $reslib->bookDay(
       $_POST['name'], $_POST['email'], $_POST['tel'], $_POST['date'], $_POST['res_start'],
-      $_POST['res_end'], $_POST['branch_address'], $_POST['notes'] ? $_POST['notes'] : ""
+      $_POST['res_end'], $_POST['branch_address'], $_POST['count'], $_POST['package'], $_POST['notes'] ? $_POST['notes'] : ""
     );
 
     /* You can send an email if you want
