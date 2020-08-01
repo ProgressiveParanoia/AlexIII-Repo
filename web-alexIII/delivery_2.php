@@ -8,13 +8,34 @@
 
   $file_dir = "admin/uploads/delivery_menu/";
   $current_session_id = "";
+  if(!isset($_COOKIE["delivery_id"])){
+              echo "<script>
+                    alert('Invalid session Id!');
+                    window.location.href = 'http://alexiiirestaurant.com/delivery.php';
+                </script>"; 
+  }
+  
+  /*
   if(array_key_exists("id", $_GET))
   {
     $current_session_id = $_GET['id'];
     file_put_contents("session.ss", $current_session_id);
   }else{
-    $current_session_id = file_get_contents("session.ss");
+    $file_contents = file_get_contents("session.ss");
+    
+    for($x = 0; $x < count($file_contents); $x++)
+    {
+      $current_value = $file_contents[$x];
+      if($current_value)
+      {
+
+      }
+    }
+    if(){
+
+    }
   }
+  */
 
   $name ="";
   $email = "";

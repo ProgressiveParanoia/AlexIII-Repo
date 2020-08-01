@@ -10,7 +10,7 @@
   $email = "";
   $address ="";
   $contact = "";
-  
+
   if($_SERVER["REQUEST_METHOD"] == "POST")
   {
     $captchaSubmitted = isset($_POST["isValid"]) ? $_POST["isValid"] : false;
@@ -22,6 +22,7 @@
                 
           return;
       }
+
     $name = $_POST['name'];
     $email = $_POST['email'];
     $address = $_POST['address'];
@@ -38,9 +39,27 @@
         $p4 = $address;
         if(mysqli_stmt_execute($statement))
         {
-          header("Location: delivery_2.php?id=". mysqli_stmt_insert_id($statement));
+          $id = mysqli_stmt_insert_id($statement);
+          $padded_id = str_pad($id, 10, "0", STR_PAD_LEFT);
+          file_put_contents("session.ss", $current_session_id, FILE_APPEND);
+          setcookie("delivery_id", $padded_id, time() + (86400 * 30), "/");
+          header("Location: delivery_2.php?id=". $padded_id);
         }
       }
+  }else
+  {
+    if(isset($_COOKIE["delivery_id"]))
+    {
+      $delivery_id = $_COOKIE["delivery_id"];
+      $entries_in_server = file("session.ss", "\n");
+  
+      foreach($entries_in_server as $entry){
+        if($delivery_id == $entry){
+          header("Location: delivery_2.php?id=". $entry);
+          return;
+        }
+      }
+    }
   }
 ?>
 <!DOCTYPE html>
@@ -174,31 +193,9 @@
                       data.append('isValid', isValid);
                       
                       document.getElementById("isCaptchaValid").value = isValid;
-
-                    /*let xhr = new XMLHttpRequest();
-                    xhr.open("POST", "delivery.php");
-                    xhr.send(data);*/
                     
                     });
-                    
-                    function createCookie(name, value, days) 
-                    { 
-                        var expires; 
-                        var date = new Date();
-                        if (days) { 
-                             
-                            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); 
-                            expires = "; expires=" + date.toGMTString(); 
-                        } 
-                        else 
-                        { 
-                            date.setTime(date.getTime() + (2 * 1000));
-                            expires = "; expires=" + date.toGMTString(); 
-                        } 
-                          
-                        document.cookie = escape(name) + "=" +  
-                            escape(value) + expires + "; path=/"; 
-                    }
+
                 };
                 </script>
                 <input type="hidden" name="isValid" value="false" id="isCaptchaValid"/>
