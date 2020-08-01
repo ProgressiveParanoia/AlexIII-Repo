@@ -10,10 +10,10 @@
   $email = "";
   $address ="";
   $contact = "";
-  $captchaSubmitted = false;
-
+  
   if($_SERVER["REQUEST_METHOD"] == "POST")
   {
+    $captchaSubmitted = isset($_POST["isValid"]) ? $_POST["isValid"] : false;
       if($captchaSubmitted == false){
           echo "<script>
                     alert('Please check the Captcha test before continuing!');
@@ -80,7 +80,7 @@
           'sitekey' : '6LfRY-EUAAAAAFP3Eowrv1NXKVJGCM5dVS-n1XcW',
           'callback' : onCaptchaSubmit
         });
-      };c
+      };
     </script>
   <!--[if lt IE 8]>
        <div style=' clear: both; text-align:center; position: relative;'>
@@ -185,8 +185,17 @@
                           
                         document.cookie = escape(name) + "=" +  
                             escape(value) + expires + "; path=/"; 
-                    } 
-                    captchaSubmitted = true;
+                    }
+
+                    let response = grecaptcha.getResponse();
+                    let isValid = response.length > 0;
+                    console.log("Response:" + response + "is Valid?" + isValid);
+                    let data = new FormData();
+                    data.append('isValid', isValid);
+
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", "delivery.php");
+                    xhr.send(data);
                 };
                 </script>
                 <button type="submit" class="btn btn-round btn-success" name="delivery_submit">Submit</button>
