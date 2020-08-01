@@ -30,7 +30,7 @@
 
     $sql = "INSERT INTO `deliveries` (`res_name`, `res_email`, `res_tel`, `address`) VALUES (?,?,?,?)";
     if($statement = mysqli_prepare($link, $sql))
-      {
+    {
         mysqli_stmt_bind_param($statement, "ssss", $p1, $p2, $p3, $p4);
 
         $p1 = $name;
@@ -41,7 +41,7 @@
         {
           $id = mysqli_stmt_insert_id($statement);
           $padded_id = str_pad($id, 10, "0", STR_PAD_LEFT);
-          file_put_contents("session.ss", $current_session_id, FILE_APPEND);
+          file_put_contents("session.ss", $padded_id, FILE_APPEND);
           setcookie("delivery_id", $padded_id, time() + (86400 * 30), "/");
           header("Location: delivery_2.php?id=". $padded_id);
         }
