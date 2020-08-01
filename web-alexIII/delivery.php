@@ -51,14 +51,29 @@
     if(isset($_COOKIE["delivery_id"]))
     {
       $delivery_id = $_COOKIE["delivery_id"];
-      $entries_in_server = file("session.ss", "\n");
-  
+      //$entries_in_server = file_get_contents("session.ss",  "\n");
+      $handle = fopen("session.ss", "r");
+      $location = "";
+      if($handle){
+        while(($line = fgets($handle)) !== false){
+          if($line == $delivery_id){
+            $location = "Location: delivery_2.php?id=". $line;
+            break;
+          }
+        }
+        fclose($handle);
+        if($location != ""){
+          header($location);
+        }
+      }
+      /*
       foreach($entries_in_server as $entry){
         if($delivery_id == $entry){
           header("Location: delivery_2.php?id=". $entry);
           return;
         }
       }
+      */
     }
   }
 ?>
