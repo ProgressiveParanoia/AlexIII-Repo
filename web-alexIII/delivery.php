@@ -39,13 +39,12 @@
         $p4 = $address;
         if(mysqli_stmt_execute($statement))
         {
-          header('Content-type: text/plain');
           $id = mysqli_stmt_insert_id($statement);
-          $padded_id = (str_pad($id, 10, "0", STR_PAD_LEFT));
-          echo "Before pad check:".$padded_id;
-          $padded_id += "\n Reee";
-          echo "Padded id:" . $padded_id;
-          file_put_contents("session.ss", $padded_id, FILE_APPEND);
+          $padded_id = (str_pad($id, 8, "0", STR_PAD_LEFT));
+          $line_break_padded_id =  PHP_EOL . $padded_id;
+          echo("padded id: ". $padded_id);
+          echo("line break padded id:" . $line_break_padded_id);
+          file_put_contents("session.ss", $line_break_padded_id, FILE_APPEND);
           setcookie("delivery_id", $padded_id, time() + (86400 * 30), "/");
          // header("Location: delivery_2.php?id=". $padded_id);
         }
