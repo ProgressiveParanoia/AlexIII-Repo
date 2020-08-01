@@ -166,16 +166,19 @@
                 var onCaptchaSubmit = function(){
                   console.log("Callback called!");
                     $(document).ready(function(){
-                       createCookie("verify", true,""); 
-                       let response = grecaptcha.getResponse();
-                    let isValid = response.length > 0;
-                    console.log("Response:" + response + "is Valid?" + isValid);
-                    let data = new FormData();
-                    data.append('isValid', isValid);
+                      // createCookie("verify", true,""); 
+                      let response = grecaptcha.getResponse();
+                      let isValid = response.length > 0;
+                      console.log("Response:" + response + "is Valid?" + isValid);
+                      let data = new FormData();
+                      data.append('isValid', isValid);
+                      
+                      document.getElementById("isCaptchaValid").value = isValid;
 
-                    let xhr = new XMLHttpRequest();
+                    /*let xhr = new XMLHttpRequest();
                     xhr.open("POST", "delivery.php");
-                    xhr.send(data);
+                    xhr.send(data);*/
+                    
                     });
                     
                     function createCookie(name, value, days) 
@@ -198,6 +201,7 @@
                     }
                 };
                 </script>
+                <input type="hidden" name="isValid" value="false" id="isCaptchaValid"/>
                 <button type="submit" class="btn btn-round btn-success" name="delivery_submit">Submit</button>
               </div>
               </fieldset>  
