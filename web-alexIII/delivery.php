@@ -186,7 +186,7 @@
                         document.cookie = escape(name) + "=" +  
                             escape(value) + expires + "; path=/"; 
                     } 
-                    //captchaSubmitted = true;
+                    captchaSubmitted = true;
                 };
                 </script>
                 <button type="submit" class="btn btn-round btn-success" name="delivery_submit">Submit</button>
