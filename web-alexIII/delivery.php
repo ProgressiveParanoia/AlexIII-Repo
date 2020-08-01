@@ -41,7 +41,7 @@
         {
           $id = mysqli_stmt_insert_id($statement);
           $padded_id = str_pad($id, 10, "0", STR_PAD_LEFT);
-          file_put_contents("session.ss", $padded_id, FILE_APPEND);
+          file_put_contents("session.ss", "\n"+$padded_id, FILE_APPEND);
           setcookie("delivery_id", $padded_id, time() + (86400 * 30), "/");
           header("Location: delivery_2.php?id=". $padded_id);
         }
