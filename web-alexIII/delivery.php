@@ -73,8 +73,8 @@
 
 
   </script>
- 	<script type="text/javascript">
-	var captchaSubmitted = false;
+   <script type="text/javascript">
+   console.log("Render the captcha element!");
       var onloadCallback = function() {
         grecaptcha.render(document.getElementById('captcha_element'), {
           'sitekey' : '6LfRY-EUAAAAAFP3Eowrv1NXKVJGCM5dVS-n1XcW',
@@ -164,8 +164,18 @@
                 <br/>
                 <script>
                 var onCaptchaSubmit = function(){
+                  console.log("Callback called!");
                     $(document).ready(function(){
                        createCookie("verify", true,""); 
+                       let response = grecaptcha.getResponse();
+                    let isValid = response.length > 0;
+                    console.log("Response:" + response + "is Valid?" + isValid);
+                    let data = new FormData();
+                    data.append('isValid', isValid);
+
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", "delivery.php");
+                    xhr.send(data);
                     });
                     
                     function createCookie(name, value, days) 
@@ -186,16 +196,6 @@
                         document.cookie = escape(name) + "=" +  
                             escape(value) + expires + "; path=/"; 
                     }
-
-                    let response = grecaptcha.getResponse();
-                    let isValid = response.length > 0;
-                    console.log("Response:" + response + "is Valid?" + isValid);
-                    let data = new FormData();
-                    data.append('isValid', isValid);
-
-                    let xhr = new XMLHttpRequest();
-                    xhr.open("POST", "delivery.php");
-                    xhr.send(data);
                 };
                 </script>
                 <button type="submit" class="btn btn-round btn-success" name="delivery_submit">Submit</button>
