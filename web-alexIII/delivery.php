@@ -39,6 +39,7 @@
         $p4 = $address;
         if(mysqli_stmt_execute($statement))
         {
+          header('Content-type: text/plain');
           $id = mysqli_stmt_insert_id($statement);
           $padded_id = str_pad($id, 10, "0", STR_PAD_LEFT);
           file_put_contents("session.ss", "\n"+$padded_id, FILE_APPEND);
