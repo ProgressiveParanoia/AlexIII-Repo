@@ -18,6 +18,18 @@
 
   $item_title = "";
   $item_description = "";
+  $new_category = "";
+
+  $category_kvp = array();
+  $file_handle = fopen("categories.txt", "r");
+  if($file_handle){
+    while(($line = fgets($file_handle)) !== false){
+      $string_arr = explode(",",$line); //Key => category_num , Value => category_name
+      $category_kvp[$string_arr[0]] = $string_arr[1];
+    }
+
+    fclose($file_handle);
+  }
 
   if($_SERVER["REQUEST_METHOD"] == "POST")
   {
@@ -51,21 +63,56 @@
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
   {
+    if(array_key_exists("submit_category", $_POST)){
+      $new_category = $_POST['new_category'];
+      $line_count = 0;
+      $file_handle = fopen("categories.txt", "r");
+      if($file_handle)
+      {
+        while(($line = fgets($file_handle)) !== false){
+          $string_arr = explode(",",$line); //Key => category_num , Value => category_name
+          $category_kvp[$string_arr[0]] = $string_arr[1];
+          $line_count++;
+        }
+        $line_count++;
+        $entry_key = $line_count . "";
+        $category_kvp[$entry_key] = $new_category;
+        fclose($file_handle);
+      }else{
+        $category_kvp["1"] = $new_category;
+      }
+
+      $category_entries = "";
+      foreach($category_kvp as $key => $value){
+        $category_entries = $key . "," . $value . "\n";
+      }
+      file_put_contents("categories.txt", $category_entries, FILE_APPEND);
+    }
     if(array_key_exists("item_submit", $_POST))
     {
       $item_title = $_POST['item_title'];
       $item_description = $_POST['item_description'];
       $item_price = $_POST['item_price'];
+      $item_category = $_POST['item_category'];
+      $item_key = 0;
+      foreach($category_kvp as $key => $value)
+      {
+        if($item_category === $value)
+        {
+          $item_key = $key;
+        }
+      }
       //$post_new_sql = "INSERT INTO `delivery_menu`(`item_id`, `price`, `name`, `description`) VALUES (".$item_id.",".$item_price.",". $item_title.",". $item_description.")";
-      $post_new_sql = "INSERT INTO `delivery_menu`(`item_id`, `price`, `name`, `description`) VALUES (?,?,?,?)";
+      $post_new_sql = "INSERT INTO `delivery_menu`(`item_id`, `price`, `name`, `description`, `category`) VALUES (?,?,?,?,?)";
       if($statement = mysqli_prepare($link, $post_new_sql))
       {
-        mysqli_stmt_bind_param($statement, "ssss", $p1, $p2, $p3, $p4);
+        mysqli_stmt_bind_param($statement, "sssss", $p1, $p2, $p3, $p4, $p5);
 
         $p1 = $item_id;
         $p2 = $item_price;
         $p3 = $item_title;
         $p4 = $item_description;
+        $p5 = $item_key;
         if(mysqli_stmt_execute($statement))
         {
           $item_id = mysqli_stmt_insert_id($statement);
@@ -211,6 +258,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 				<div class="row mt">
 					<div class="col-lg-12">		
                   <div class="form-panel">
+                    <form class="form-horizontal style-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Current Categories</label>
+                              <?php
+                                echo "<p class='col-sm-12'> </p>";
+                                foreach($category_kvp as $key => $value){
+                                    echo "<p class='col-sm-4'> ".$value."</p>";
+                                    
+                                }
+                              ?>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Add Category</label>
+                              <div class="col-sm-10">
+                                <input type="text" name="new_category" class="form-control" value="<?php echo $new_category?>">
+                              </div>
+                              <div class="col-sm-10">
+                                <button type="submit" class="btn btn-round btn-success" name="submit_category">Submit</button>   
+                              </div>
+                            </div>
+                      </form>
+                  </div>
+                  <div class="form-panel">
                       <h4 class="mb"><i class="fa fa-angle-right"></i>Menu Item</h4>
                       <form class="form-horizontal style-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post" enctype="multipart/form-data">
                           <div class="form-group">
@@ -238,6 +308,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                               <textarea class="form-control" name="item_description" style="height:170px" ><?php echo $item_description?></textarea>
                               <span class="help-block">Change Sub Message.</span>
                             </div>
+                            <label class="col-sm-2 col-sm-2 control-label">Category</label>
+                            <div class="col-sm-10">
+                                <?php
+                                  echo "<select name='item_category'>";
+                                    foreach($category_kvp as $key => $value)
+                                    {
+                                      echo "<option value='".$key."'>".$value."</option>";
+                                    }
+                                  echo "</select>";
+                                ?>
+                                <span class="help-block">Change Item Category</span>
+                            </div>
                               <label class="col-sm-2 col-sm-2 control-label">   
                                 <button type="submit" class="btn btn-round btn-success" name="item_submit">Submit</button>   
                               </div>                      
@@ -249,18 +331,31 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                       <h4 class="mb"><i class="fa fa-angle-right"></i>Menu Items</h4>
                       <form class="form-horizontal style-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post">
                           <?php
-                            echo "<ul>";
+                           // echo "<ul>";
                             for($x = 0; $x < count($menu_data); $x++)
                             {
                               $column_data = $menu_data[$x];
+                              /*
                               echo "<li><img src='uploads/delivery_menu/".$column_data[0].".jpg' width=300 height=240></li>";
                               echo"<li><label class='col-sm-3 col-sm-3 control-label'>ItemID:".$column_data[0]."</li>";
                               echo"<li><label class='col-sm-3 col-sm-3 control-label'>Name:".$column_data[2]."</li>";
                               echo"<li><label class='col-sm-3 col-sm-3 control-label'>Price:".$column_data[1]."</li>";
                               echo"<li><label class='col-sm-3 col-sm-3 control-label'>Description:".$column_data[3]."</li>";
-                              echo "<button type='submit' class='btn btn-round btn-success' name='remove_item' value='".$column_data[0]."'>Remove</button>";
+                              */
+                              echo "<div class='row'>";
+                                echo "<div class='col-sm-4'><img src='uploads/delivery_menu/".$column_data[0].".jpg' width=300 height=240></div>";
+                                echo "<div class='col-sm-6'>";
+                                  echo"<p>ItemID:".$column_data[0]."</p>";
+                                  echo"<p>Name:".$column_data[2]."</p>";
+                                  echo"<p>Price:".$column_data[1]."</p>";
+                                  echo"<p>Description:".$column_data[3]."</p>";
+                                  echo "<p>Category:".$column_data[4]."</p>";
+                                  echo "<button type='submit' class='btn btn-round btn-success' name='remove_item' value='".$column_data[0]."'>Remove</button>";
+
+                                  echo "</div>";
+                              echo "</div>";
                             }
-                            echo "</ul>";
+                            //echo "</ul>";
                           ?>
                               </div>                      
                             </div>
@@ -318,10 +413,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     
   <script>
       //custom select box
-
-      $(function(){
-          $('select.styled').customSelect();
-      });
 
   </script>
 
