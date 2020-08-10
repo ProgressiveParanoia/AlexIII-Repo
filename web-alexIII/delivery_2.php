@@ -47,7 +47,38 @@
   $menu_data = null;
   $cart_size = 0;
 
+  $category_kvp = array(); //contents of the categories text
+  $sorted_entry_kvp = array(); //sorted menu_data items. Key => category_name, Value => array of strings
+  $file_handle = fopen("admin/categories.txt", "r");
+  if($file_handle)
+  {
+    while(($line = fgets($file_handle)) !== false)
+    {
+      $string_arr = explode(",",$line); //Key => category_num , Value => category_name
+      $category_kvp[$string_arr[0]] = $string_arr[1];
+    }
+
+    fclose($file_handle);
+  }
+
   $sql = "SELECT * FROM delivery_menu";
+
+  class MenuEntry{
+    public $id;
+    public $price;
+    public $name;
+    public $description;
+    public $category;
+
+    function __construct($id, $price, $name, $description, $category)
+    {
+      $this->id = $id;
+      $this->price = $price;
+      $this->name = $name;
+      $this->description = $description;
+      $this->category = $category;
+    }
+  }
 
   if($statement_get = mysqli_prepare($link, $sql))
   {
@@ -55,7 +86,29 @@
     {
       $result_set = mysqli_stmt_get_result($statement_get);
       $menu_data = mysqli_fetch_all($result_set);
-     // echo "sesh  id:" . $current_session_id;
+      $dump_once = false;
+      foreach($category_kvp as $key => $value)
+      { 
+        echo "KEY CREATION";
+        $sorted_entry_kvp[$value] = array();
+        foreach($menu_data as $menu_entry)
+        {
+          
+          $category = $menu_entry[4];
+          
+          if($key === $category)
+          {
+            $new_entry = new MenuEntry($menu_entry[0], $menu_entry[1], $menu_entry[2], $menu_entry[3], $menu_entry[4]);
+            array_push($sorted_entry_kvp[$value], $new_entry);
+          }
+        }
+      }
+      /*
+      foreach($sorted_entry_kvp as $key => $entries){
+        foreach($entries as $entry){
+        }
+      }
+      */
     }
   }  
   $user_cart = array();
@@ -97,6 +150,7 @@
       $item_price = "";
       $item_name = "";
       $item_description = "";
+      $item_category = 0;
 
       $encounters = 0;
       $requested_id = $_POST['add_item'];
@@ -341,15 +395,16 @@
       <div class="zerogrid">
        <div class="block-2 pad-2">
         <div class="col-12"> 
-          <h2>Category</h2>
+          <!--<h2>Category</h2>-->
        
-          <form id="menu-entry" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post">
+          <!--<form id="menu-entry" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post">-->
             <!--<ul>-->
             <?php
               //additional for-loop for categories...
               // loop 1 = category
               // loop 2 = category items
-              echo "<div class='form-group row'>";
+             // echo "<div class='form-group row'>";
+              /*
               for($x = 0; $x < count($menu_data); $x++)
               {
                 $column_data = $menu_data[$x];
@@ -359,48 +414,72 @@
                   //echo "<img src='".$file_dir.$id.".jpg'>";
                   echo "<image src='".$file_dir."page4-img6.jpg'>";
                 echo "</div>";
-                /*
-                echo "<div class='col-sm-4'>";
-                  echo "<label name='name' value='".$column_data[2]."'><h4>".$column_data[2]."</h4>";
-                echo "</div>";
-                echo "<div class='col-sm-3'>";
-                  echo "<label name='price' value='".$column_data[1]."'><h5>".$column_data[1]."</h5>";
-                echo "</div>";
-                */
+
                 echo "<div class='col-sm-6'>";
                     echo "<div class='row'>";
                         echo "<div class='col-sm-8'>";
-                          echo "<h3>Pritong Tite</h3>";
+                          echo "<h3>".$column_data[2]."</h3>";
                         echo "</div>";
                         echo "<div class='col-sm-2'>";
-                          echo "<h5>69.00</h3>";
+                          echo "<h5>".$column_data[1]."</h3>";
                         echo "</div>";
                     echo "</div>";
 
                     echo "<div class='row'>";
                       echo "<div class='col-sm-12'>";
-                        echo "<h5> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                              </h5>";
+                        echo "<h5>". 
+                              $column_data[3]
+                              ."</h5>";
                       echo "</div>";                  
                     echo "</div>";
                 echo "</div>";
                 echo "<div class='col-sm-2'>";
                   echo "<button type='button' class='btn btn-success' name='add_item' value='".$id."'>Add to Cart</button>";
                 echo "</div>";
-               // echo "<button class='col-sm-4 control-label' name='add_item' value='".$id."'>Add to Cart</button>";
-                /*
-                echo "<li><img src='".$file_dir.$id.".jpg' class='col-sm-1 control-label'></li>";
-                echo"<li><label class='col-sm-4 control-label' name='name' value='".$column_data[2]."'>Name:".$column_data[2]."</li>";
-                echo"<li><label class='col-sm-4 control-label' name='price' value='".$column_data[1]."'>Price:".$column_data[1]."</li>";
-                echo "<button class='col-sm-4 control-label' name='add_item' value='".$id."'>Add to Cart</button>";
-                */
               }   
+              */
+              foreach($sorted_entry_kvp as $key => $entries){
+                echo "<h2>".$key."</h2>";
+                echo "<form id=;menu-entry; action=". htmlspecialchars($_SERVER["PHP_SELF"]). "method='post'>";
+                echo "<div class='form-group row'>";
+                foreach($entries as $entry){
+                  $id = $entry->id;
+                  echo "<div class='col-sm-4'>";
+                    //echo "<img src='".$file_dir.$id.".jpg'>";
+                    echo "<image src='".$file_dir."page4-img6.jpg'>";
+                  echo "</div>";
+
+                  echo "<div class='col-sm-6'>";
+                    echo "<div class='row'>";
+                        echo "<div class='col-sm-8'>";
+                          echo "<h3>".$entry->name."</h3>";
+                        echo "</div>";
+                        echo "<div class='col-sm-2'>";
+                          echo "<h5>".$entry->price."</h3>";
+                        echo "</div>";
+                    echo "</div>";
+
+                    echo "<div class='row'>";
+                      echo "<div class='col-sm-12'>";
+                        echo "<h5>". 
+                              $entry->description
+                              ."</h5>";
+                      echo "</div>";                  
+                    echo "</div>";
+                echo "</div>";
+                echo "<div class='col-sm-2'>";
+                  echo "<button type='button' class='btn btn-success' name='add_item' value='".$id."'>Add to Cart</button>";
+                echo "</div>";
+                }
+              }
               
-              echo "</div>"; 
+                  echo "</div>";
+                echo "</form>";
+              echo"</div>"; 
             ?>
            <!--</ul>-->
-         </form>
-        </div>
+      <!--   </form>-->
+      <!--  </div>-->
 <!-- FIX LAYOUT FOR CARTS
         <div class="block-2 col-3"> 
         <div class="col-4"> 

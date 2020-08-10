@@ -10,6 +10,7 @@
   }
     
   require_once "config.php";
+  
   $file_dir = "uploads/delivery_menu";
 
   $menu_data = null;
@@ -74,12 +75,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
           $category_kvp[$string_arr[0]] = $string_arr[1];
           $line_count++;
         }
-        $line_count++;
+        //$line_count++;
         $entry_key = $line_count . "";
         $category_kvp[$entry_key] = $new_category;
         fclose($file_handle);
       }else{
-        $category_kvp["1"] = $new_category;
+        $category_kvp["0"] = $new_category;
       }
 
       $category_entries = "";
@@ -88,6 +89,45 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
       }
       file_put_contents("categories.txt", $category_entries, FILE_APPEND);
     }
+
+    if(array_key_exists("remove_category", $_POST)){
+      $remove_category = $_POST['new_category'];
+      $file_handle = fopen("categories.txt", "r");
+      $line_to_remove = "";
+
+      echo "category to remove" . $remove_category;
+      if($file_handle)
+      {
+        while(($line = fgets($file_handle)) !== false){
+          $string_arr = explode(",", $line);
+          //echo "string arr[0]" . $string_arr[0] . " string arr[1]" . $string_arr[1] . " current line:" . $line;
+          $last_char_idx = strlen($string_arr[1]) - 1;
+          //echo "last character index: ". $string_arr[1][$last_char_idx] . " IDX:".$last_char_idx;
+          $clearedSTR = rtrim($string_arr[1], $string_arr[1][$last_char_idx]); //remove the last character. Could be a line break or space that was left
+                                                                               //from the file opening operation
+          //echo "cleared str:" . $clearedSTR;
+          //echo "str1 count: " . strlen($clearedSTR), " remove count:" . strlen($remove_category);
+          if(strcmp($remove_category, $clearedSTR) == 0){
+            $line_to_remove = $line;
+            break;
+          }
+        }
+        fclose($file_handle);
+
+        $contents = file_get_contents("categories.txt"); 
+        $contents = str_replace($line_to_remove, '', $contents);
+        file_put_contents("categories.txt", $contents);
+      }else{
+        echo "No handle on category file.";
+      }
+    }
+
+    if(array_key_exists("clear_category", $_POST)){
+      file_put_contents("categories.txt", "");
+      echo "<script>window.location.href=window.location.href</script>";
+    }
+    
+
     if(array_key_exists("item_submit", $_POST))
     {
       $item_title = $_POST['item_title'];
@@ -95,13 +135,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
       $item_price = $_POST['item_price'];
       $item_category = $_POST['item_category'];
       $item_key = 0;
+      echo "Item category value:" . $item_category;
+      /*
       foreach($category_kvp as $key => $value)
       {
-        if($item_category === $value)
+        if($item_category === $key)
         {
           $item_key = $key;
+          break;
         }
       }
+*/
+      echo "Item key value:" . $item_key;
       //$post_new_sql = "INSERT INTO `delivery_menu`(`item_id`, `price`, `name`, `description`) VALUES (".$item_id.",".$item_price.",". $item_title.",". $item_description.")";
       $post_new_sql = "INSERT INTO `delivery_menu`(`item_id`, `price`, `name`, `description`, `category`) VALUES (?,?,?,?,?)";
       if($statement = mysqli_prepare($link, $post_new_sql))
@@ -112,7 +157,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $p2 = $item_price;
         $p3 = $item_title;
         $p4 = $item_description;
-        $p5 = $item_key;
+        $p5 = $item_category;//$item_key;
         if(mysqli_stmt_execute($statement))
         {
           $item_id = mysqli_stmt_insert_id($statement);
@@ -274,8 +319,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                               <div class="col-sm-10">
                                 <input type="text" name="new_category" class="form-control" value="<?php echo $new_category?>">
                               </div>
-                              <div class="col-sm-10">
-                                <button type="submit" class="btn btn-round btn-success" name="submit_category">Submit</button>   
+                              <div class="col-sm-4">
+                                <button type="submit" class="btn btn-round btn-success" name="submit_category">Add</button>   
+                              </div>
+                              <div class="col-sm-4">
+                                <button type="submit" class="btn btn-round btn-secondary" name="remove_category">Remove</button>   
+                              </div>
+                              <div class="col-sm-4">
+                                <button type="submit" class="btn btn-round btn-danger" name="clear_category">Clear All</button>   
                               </div>
                             </div>
                       </form>
