@@ -89,7 +89,6 @@
       $dump_once = false;
       foreach($category_kvp as $key => $value)
       { 
-        echo "KEY CREATION";
         $sorted_entry_kvp[$value] = array();
         foreach($menu_data as $menu_entry)
         {
@@ -139,6 +138,8 @@
 
   if($_SERVER["REQUEST_METHOD"] == "POST")
   {
+    echo "Post called!";
+    var_dump($_POST);
     if(array_key_exists("submit_delivery", $_POST))
     {
       header("Location:tracker.php");
@@ -278,7 +279,7 @@
     #stickynav {
       z-index: 4;
       overflow: hidden;
-      background-color: #333;
+      background-color: #a6a3a2;
     }
 
     #stickynav a {
@@ -337,7 +338,7 @@
             </ul>
             <div class="clear"></div>
          </nav>
-     -->
+    -->
     <div class="topnav" id="myTopnav">
       <a href="index.php">Home</a>
       <a href="gallery.php">Gallery</a>
@@ -352,7 +353,23 @@
     </div>
 
     <div id="stickynav">
-      <a href="index.php">Home</a>
+      <?php
+        $assignedTopNav = false;
+        foreach($sorted_entry_kvp as $key => $entries)
+        {
+          $str_to_use = "";
+          if($assignedTopNav){
+            $id = explode(" ",$key) ;
+            $decodedId = str_replace(array("\n", "\r"), '', $id);
+            $str_to_use = $decodedId[0];
+          }else{
+            $assignedTopNav = true;
+            $str_to_use = "myTopnav";
+          }
+          
+          echo "<a href='#".$str_to_use."'>".$key."</a>";
+        }
+      ?>
       <!--
       <a href="gallery.php">Gallery</a>
       <a href="menu.php">Menu</a>
@@ -360,7 +377,7 @@
       <a href="reservation.php">Reservation</a>
       <a href="delivery.php" class="active">Delivery</a>
       <a href="tracker.php">Tracker</a>
-  -->
+      -->
     </div>
 
     <script>
@@ -395,122 +412,46 @@
       <div class="zerogrid">
        <div class="block-2 pad-2">
         <div class="col-12"> 
-          <!--<h2>Category</h2>-->
-       
-          <!--<form id="menu-entry" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post">-->
-            <!--<ul>-->
             <?php
-              //additional for-loop for categories...
-              // loop 1 = category
-              // loop 2 = category items
-             // echo "<div class='form-group row'>";
-              /*
-              for($x = 0; $x < count($menu_data); $x++)
-              {
-                $column_data = $menu_data[$x];
-                $id = $column_data[0];
-
-                echo "<div class='col-sm-4'>";
-                  //echo "<img src='".$file_dir.$id.".jpg'>";
-                  echo "<image src='".$file_dir."page4-img6.jpg'>";
-                echo "</div>";
-
-                echo "<div class='col-sm-6'>";
-                    echo "<div class='row'>";
-                        echo "<div class='col-sm-8'>";
-                          echo "<h3>".$column_data[2]."</h3>";
-                        echo "</div>";
-                        echo "<div class='col-sm-2'>";
-                          echo "<h5>".$column_data[1]."</h3>";
-                        echo "</div>";
-                    echo "</div>";
-
-                    echo "<div class='row'>";
-                      echo "<div class='col-sm-12'>";
-                        echo "<h5>". 
-                              $column_data[3]
-                              ."</h5>";
-                      echo "</div>";                  
-                    echo "</div>";
-                echo "</div>";
-                echo "<div class='col-sm-2'>";
-                  echo "<button type='button' class='btn btn-success' name='add_item' value='".$id."'>Add to Cart</button>";
-                echo "</div>";
-              }   
-              */
               foreach($sorted_entry_kvp as $key => $entries){
+                $id = explode(" ",$key);
+                $decodedId = urldecode($id[0]);
                 echo "<h2>".$key."</h2>";
-                echo "<form id=;menu-entry; action=". htmlspecialchars($_SERVER["PHP_SELF"]). "method='post'>";
-                echo "<div class='form-group row'>";
-                foreach($entries as $entry){
-                  $id = $entry->id;
-                  echo "<div class='col-sm-4'>";
-                    //echo "<img src='".$file_dir.$id.".jpg'>";
-                    echo "<image src='".$file_dir."page4-img6.jpg'>";
+                echo "<form id='".$decodedId."' action='delivery_2.php' method='POST' name='".$decodedId."'>";
+                  echo "<div class='form-group row'>";
+                  foreach($entries as $entry){
+                    $id = $entry->id;
+                    echo "<div class='col-sm-4'>";
+                      //echo "<img src='".$file_dir.$id.".jpg'>";
+                      echo "<image src='".$file_dir."page4-img6.jpg'>";
+                    echo "</div>";
+
+                    echo "<div class='col-sm-6'>";
+                      echo "<div class='row'>";
+                          echo "<div class='col-sm-8'>";
+                            echo "<h3>".$entry->name."</h3>";
+                          echo "</div>";
+                          echo "<div class='col-sm-2'>";
+                            echo "<h5>".$entry->price."</h3>";
+                          echo "</div>";
+                      echo "</div>";
+
+                      echo "<div class='row'>";
+                        echo "<div class='col-sm-12'>";
+                          echo "<h5>". 
+                                $entry->description
+                                ."</h5>";
+                        echo "</div>";                  
+                      echo "</div>";
                   echo "</div>";
-
-                  echo "<div class='col-sm-6'>";
-                    echo "<div class='row'>";
-                        echo "<div class='col-sm-8'>";
-                          echo "<h3>".$entry->name."</h3>";
-                        echo "</div>";
-                        echo "<div class='col-sm-2'>";
-                          echo "<h5>".$entry->price."</h3>";
-                        echo "</div>";
-                    echo "</div>";
-
-                    echo "<div class='row'>";
-                      echo "<div class='col-sm-12'>";
-                        echo "<h5>". 
-                              $entry->description
-                              ."</h5>";
-                      echo "</div>";                  
-                    echo "</div>";
-                echo "</div>";
-                echo "<div class='col-sm-2'>";
-                  echo "<button type='button' class='btn btn-success' name='add_item' value='".$id."'>Add to Cart</button>";
-                echo "</div>";
-                }
-              }
-              
+                  echo "<div class='col-sm-2'>";
+                    echo "<button type='submit' class='btn btn-success' name='add_item' value='".$id."'>Add to Cart</button>";
+                  echo "</div>";
+                  }
                   echo "</div>";
                 echo "</form>";
-              echo"</div>"; 
+              }
             ?>
-           <!--</ul>-->
-      <!--   </form>-->
-      <!--  </div>-->
-<!-- FIX LAYOUT FOR CARTS
-        <div class="block-2 col-3"> 
-        <div class="col-4"> 
-         <h3 class="h3">Items in Cart:</h3>
-          <form id="form" method="post"> 
-          <ul>
-            <?php
-          /*
-            $method_name= "item_1";
-            $method_idx = 1;
-
-            while(empty($json_arr->$method_name) != 1)
-            {
-              $column_data = $json_arr->$method_name;
-              $id = $column_data[0];
-
-              echo"<li><label class='col-sm-1 control-label' name='name' value='".$column_data[2]."'>Name:".$column_data[2]."</li>";
-              echo"<li><label class='col-sm-1 control-label' name='price' value='".$column_data[1]."'>Price:".$column_data[1]."</li>";
-              echo "<button class='col-sm-1 control-label' name='remove_item' value='".$id."'>Remove from Cart</button>";
-              $method_idx++;
-              $method_name = "item_" . $method_idx;
-             }
-             */
-            ?>
-            <li><center><button onclick="myFunction()" type="submit" class="btn btn-round btn-success" name ="submit_delivery">Submit</button></center></li>
-            <script>alert("Your session id is "+ <?php echo $current_session_id; ?>);</script>
-          </ul>
-         </form>
-        </div>
-       </div>
--->   
       </div>
     </div>
     </section> 

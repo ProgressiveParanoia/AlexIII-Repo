@@ -94,8 +94,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
       $remove_category = $_POST['new_category'];
       $file_handle = fopen("categories.txt", "r");
       $line_to_remove = "";
-
-      echo "category to remove" . $remove_category;
       if($file_handle)
       {
         while(($line = fgets($file_handle)) !== false){
@@ -135,7 +133,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
       $item_price = $_POST['item_price'];
       $item_category = $_POST['item_category'];
       $item_key = 0;
-      echo "Item category value:" . $item_category;
       /*
       foreach($category_kvp as $key => $value)
       {
@@ -146,7 +143,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         }
       }
 */
-      echo "Item key value:" . $item_key;
       //$post_new_sql = "INSERT INTO `delivery_menu`(`item_id`, `price`, `name`, `description`) VALUES (".$item_id.",".$item_price.",". $item_title.",". $item_description.")";
       $post_new_sql = "INSERT INTO `delivery_menu`(`item_id`, `price`, `name`, `description`, `category`) VALUES (?,?,?,?,?)";
       if($statement = mysqli_prepare($link, $post_new_sql))

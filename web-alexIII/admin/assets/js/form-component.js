@@ -68,14 +68,6 @@ var Script = function () {
 
 
 
-    //color picker
-
-    $('.cp1').colorpicker({
-        format: 'hex'
-    });
-    $('.cp2').colorpicker();
-
-
     //date picker
 
     if (top.location != location) {
@@ -148,14 +140,14 @@ var Script = function () {
 
     //daterange picker
 
-    $('#reservation').daterangepicker();
-
+   // $('#reservation').daterangepicker();
+/*
     $('#reportrange').daterangepicker(
         {
             ranges: {
                 'Today': ['today', 'today'],
                 'Yesterday': ['yesterday', 'yesterday'],
-                'Last 7 Days': [Date.today().add({ days: -6 }), 'today'],
+                //'Last 7 Days': [Date.today().add({ days: -6 }), 'today'],
                 'Last 30 Days': [Date.today().add({ days: -29 }), 'today'],
                 'This Month': [Date.today().moveToFirstDayOfMonth(), Date.today().moveToLastDayOfMonth()],
                 'Last Month': [Date.today().moveToFirstDayOfMonth().add({ months: -1 }), Date.today().moveToFirstDayOfMonth().add({ days: -1 })]
@@ -183,9 +175,9 @@ var Script = function () {
             $('#reportrange span').html(start.toString('MMMM d, yyyy') + ' - ' + end.toString('MMMM d, yyyy'));
         }
     );
-
+*/
     //Set the initial state of the picker label
-    $('#reportrange span').html(Date.today().add({ days: -29 }).toString('MMMM d, yyyy') + ' - ' + Date.today().toString('MMMM d, yyyy'));
+  //  $('#reportrange span').html(Date.today().add({ days: -29 }).toString('MMMM d, yyyy') + ' - ' + Date.today().toString('MMMM d, yyyy'));
 
 
 }();

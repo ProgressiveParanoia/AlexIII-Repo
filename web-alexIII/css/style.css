@@ -1,5 +1,5 @@
 /* Global properties ======================================================== */
-html, body {width:100%; padding:0; margin:0;}
+html, body {width:100%; padding:0; margin:0; scroll-behavior: smooth;}
 
 body { 	 
 	font: 14px/18px "Helvetica", Times, serif;
