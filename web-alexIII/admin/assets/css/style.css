@@ -21,7 +21,6 @@ body {
     margin: 0px !important;
     font-size:13px;
 }
-
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
@@ -460,6 +459,10 @@ a.logo span {
     color: #68dff0;
 }
 
+.cart
+{
+    position: right;
+}
 
 /*notification*/
 #top_menu .nav > li, ul.top-menu > li {

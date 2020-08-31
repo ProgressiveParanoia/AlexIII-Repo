@@ -7,15 +7,15 @@
   require_once "admin/config.php";
 
   $file_dir = "admin/uploads/delivery_menu/";
-  $current_session_id = "";
-  /*
-  if(!isset($_COOKIE["delivery_id"])){
+  $current_session_id = isset($_COOKIE["delivery_id"]) ? $_COOKIE["delivery_id"] : "";
+  
+  if($current_session_id == ""){
               echo "<script>
                     alert('Invalid session Id!');
-                    window.location.href = 'http://alexiiirestaurant.com/delivery.php';
+                    //window.location.href = 'http://alexiiirestaurant.com/delivery.php';
+                    window.location.href = 'http://localhost/AlexIII_Repo/web-alexIII/delivery.php';
                 </script>"; 
   }
-  */
   
   /*
   if(array_key_exists("id", $_GET))
@@ -39,13 +39,12 @@
   }
   */
 
-  $name ="";
   $email = "";
-  $address ="";
   $contact = "";
 
   $menu_data = null;
   $cart_size = 0;
+  $total_price = 0;
 
   $category_kvp = array(); //contents of the categories text
   $sorted_entry_kvp = array(); //sorted menu_data items. Key => category_name, Value => array of strings
@@ -111,7 +110,9 @@
     }
   }  
   $user_cart = array();
-  $sql = "SELECT cart FROM deliveries WHERE res_id=".$current_session_id;
+  $address = "";
+  $number = "";
+  $sql = "SELECT cart, res_name, res_tel,res_email,address FROM deliveries WHERE res_id=".$current_session_id;
     if($statement = mysqli_prepare($link, $sql))
       {
           if(mysqli_stmt_execute($statement))
@@ -120,17 +121,14 @@
              $result_set = ( mysqli_stmt_get_result($statement));
              $rows = mysqli_fetch_array($result_set);
              $json_string = $rows['cart'];
+             $address = $rows['address'];
+             $number = $rows['res_tel'];
              $json_arr = json_decode($json_string);
              $user_cart = $json_arr;
-
             $method_name= "item_1";
             $method_idx = 1;
-
-            while(empty($json_arr->$method_name) != 1)
-            {
-              $cart_size++;
+            foreach($user_cart as $key => $val){
               $method_idx++;
-              $method_name= "item_".$method_idx;
             }
           }
           mysqli_stmt_close($statement);
@@ -138,8 +136,6 @@
 
   if($_SERVER["REQUEST_METHOD"] == "POST")
   {
-    echo "Post called!";
-    var_dump($_POST);
     if(array_key_exists("submit_delivery", $_POST))
     {
       header("Location:tracker.php");
@@ -178,17 +174,17 @@
     $json = json_encode($user_cart);
     $sql = "UPDATE `deliveries` set cart = ? WHERE res_id = ?";
 
-    if($statement_get = mysqli_prepare($link, $sql))
-    {
-        mysqli_stmt_bind_param($statement_get, "ss", $p1, $p2);
+      if($statement_get = mysqli_prepare($link, $sql))
+      {
+          mysqli_stmt_bind_param($statement_get, "ss", $p1, $p2);
 
-        $p1 = $json;
-        $p2 = $current_session_id;
-        if(mysqli_stmt_execute($statement_get))
-        {
-        
-        }
-    }
+          $p1 = $json;
+          $p2 = $current_session_id;
+          if(mysqli_stmt_execute($statement_get))
+          {
+          
+          }
+      }
     }
   }
 
@@ -198,24 +194,17 @@
       $item_price = "";
       $item_name = "";
       $item_description = "";
-
       $encounters = 0;
       $requested_id = $_POST['remove_item'];
-
-            $method_name= "item_1";
-            $method_idx = 1;
-
-            while(empty($user_cart->$method_name) != 1)
-            {
-              $column_data = $user_cart->$method_name;
-              if($column_data[0] == $requested_id)
-              {
-                unset($user_cart->$method_name); 
-              }
-              $method_idx++;
-              $method_name = "item_" . $method_idx;
-             }
-
+          
+          foreach($user_cart as $key => $val){
+            $row_entry = ((array)$user_cart)[$key];
+            if($requested_id == $row_entry[0]){
+              $total_price -= $row_entry[1];
+            break;
+            }
+          }
+          unset($user_cart->$requested_id);
     $json = json_encode($user_cart);
     $sql = "UPDATE `deliveries` set cart = ? WHERE res_id = ?";
 
@@ -247,8 +236,9 @@
   <link rel="stylesheet" href="css/zerogrid.css" type="text/css" media="all">
   <link rel="stylesheet" href="css/responsive.css" type="text/css" media="all">
     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.fancybox-1.3.4.css">
-    <link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'
->    <script src="js/jquery-1.7.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="js/add-to-cart-interaction-master/assets/css/style.css">
+    <script src="js/jquery-1.7.min.js"></script>
     <script src="js/jquery.easing.1.3.js"></script>
   <script type="text/javascript" src="js/css3-mediaqueries.js"></script>
     <script src="js/jquery.fancybox-1.3.4.pack.js"></script>
@@ -371,6 +361,15 @@
         }
       ?>
       <!--
+      <a href="#0" class="icon cd-cart__trigger" style="float:right">
+        <img src="images/cart.png" style="width:30px;height:25px">
+        <?php
+          echo "<span>x".$cart_size."</span>"
+        ?>
+      </a>
+      -->
+      
+      <!--
       <a href="gallery.php">Gallery</a>
       <a href="menu.php">Menu</a>
       <a href="contacts.php">Contacts</a>
@@ -455,7 +454,6 @@
       </div>
     </div>
     </section> 
-
 <!--==============================footer=================================-->
 <footer>
   <div class="zerogrid">
@@ -464,6 +462,56 @@
   </div>
   </footer> 
 </div> 
-</div>       
+</div>   
+
+<div class="cd-cart cd-cart--empty js-cd-cart">
+	<a href="#0" class="cd-cart__trigger text-replace">
+		<ul class="cd-cart__count"> <!-- cart items count -->
+			<li>0</li>
+			<li>0</li>
+		</ul> <!-- .cd-cart__count -->
+	</a>
+
+	<div class="cd-cart__content">
+		<div class="cd-cart__layout">
+			<header class="cd-cart__header">
+        <h2>Delivery Information</h2>
+      </header>
+      <ul>
+        
+        <li><?php echo "<p>".$address. "</p>"; ?></li>
+        <li><?php echo "<p>". $number. "</p>"; ?></li>
+      </ul>
+      <header class="cd-cart__header">
+        <h2>Cart</h2>
+			</header>
+			<div class="cd-cart__body">
+        <form method='POST' action=''>
+				  <ul>
+					  <!-- products added to the cart will be inserted here using JavaScript -->
+          </ul>
+        </form>
+			</div>
+
+			<footer class="cd-cart__footer">
+				<a href="#0" class="cd-cart__checkout">
+          <em>Place Order - P<span>
+            <?php 
+             foreach($user_cart as $key => $val){
+              $price = ((array)$user_cart)[$key][1];
+              $total_price += $price;
+             }
+            echo $total_price?>
+            .00</span>
+            <svg class="icon icon--sm" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><line stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="3" y1="12" x2="21" y2="12"/><polyline stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="15,6 21,12 15,18 "/></g>
+            </svg>
+          </em>
+        </a>
+			</footer>
+		</div>
+	</div> <!-- .cd-cart__content -->
+</div> <!-- cd-cart -->
+<script src="js/add-to-cart-interaction-master/assets/js/util.js"></script> <!-- util functions included in the CodyHouse framework -->
+<script src="js/add-to-cart-interaction-master/assets/js/main.js"></script> 
 </body>
 </html>
