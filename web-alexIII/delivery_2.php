@@ -128,7 +128,8 @@
             $method_name= "item_1";
             $method_idx = 1;
             foreach($user_cart as $key => $val){
-              $method_idx++;
+              $topmost_idx = trim($key, "item_");
+              if($topmost_idx > $method_idx) $method_idx = ++$topmost_idx; else $method_idx++;
             }
           }
           mysqli_stmt_close($statement);
@@ -197,11 +198,14 @@
       $encounters = 0;
       $requested_id = $_POST['remove_item'];
           
+      $deducted = false;
           foreach($user_cart as $key => $val){
             $row_entry = ((array)$user_cart)[$key];
-            if($requested_id == $row_entry[0]){
-              $total_price -= $row_entry[1];
-            break;
+            if($deducted == false){
+              if($requested_id == $row_entry[0]){
+                $total_price -= $row_entry[1];
+                $deducted = true;
+              }
             }
           }
           unset($user_cart->$requested_id);
