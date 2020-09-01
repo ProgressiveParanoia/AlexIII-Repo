@@ -112,7 +112,8 @@
   $user_cart = array();
   $address = "";
   $number = "";
-  $sql = "SELECT cart, res_name, res_tel,res_email,address FROM deliveries WHERE res_id=".$current_session_id;
+  $res_id = "";
+  $sql = "SELECT cart, res_name, res_tel,res_email,address, res_id FROM deliveries WHERE res_id=".$current_session_id;
     if($statement = mysqli_prepare($link, $sql))
       {
           if(mysqli_stmt_execute($statement))
@@ -123,6 +124,7 @@
              $json_string = $rows['cart'];
              $address = $rows['address'];
              $number = $rows['res_tel'];
+             $res_id = $rows['res_id'];
              $json_arr = json_decode($json_string);
              $user_cart = $json_arr;
             $method_name= "item_1";
@@ -483,8 +485,9 @@
       </header>
       <ul>
         
-        <li><?php echo "<p>".$address. "</p>"; ?></li>
-        <li><?php echo "<p>". $number. "</p>"; ?></li>
+        <li><?php echo "<h5 style='color:#eb4034;'>Order Id:".$res_id."</h5>";?></li>
+        <li><?php echo "<h5>".$address. "</h5>"; ?></li>
+        <li><?php echo "<h5>". $number. "</h5>"; ?></li>
       </ul>
       <header class="cd-cart__header">
         <h2>Cart</h2>

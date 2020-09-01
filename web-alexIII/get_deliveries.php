@@ -14,7 +14,8 @@
  
   $user_cart = array();
   $cart_size = 0;
-  $sql = "SELECT cart, res_name, res_tel,res_email, address FROM deliveries WHERE res_id=".$current_session_id;
+  $res_id = "";
+  $sql = "SELECT res_id,cart, res_name, res_tel,res_email, address FROM deliveries WHERE res_id=".$current_session_id;
     if($statement = mysqli_prepare($link, $sql))
       {
           if(mysqli_stmt_execute($statement))
@@ -27,8 +28,9 @@
              $number = $rows['res_tel'];
              $email = $rows['res_email'];
              $address = $rows['address'];
+             $res_id = $rows['res_id'];
           }
-          $str = $json_string . "~" . $name . "~" . $number . "~".$email."~".$address;
+          $str = $json_string . "~" . $name . "~" . $number . "~".$email."~".$address."~".$res_id;
           mysqli_stmt_close($statement);
           echo $str;
         }

@@ -6,7 +6,28 @@
 
   require_once "admin/config.php";
 
-$state_value = -1;
+  $state_value = -1;
+  $containsID = false;
+  if(isset($_GET['id'])){
+    $session_id = $_GET['id'];
+    
+    $sql = "SELECT state FROM deliveries WHERE res_id=".$session_id;
+    if($statement = mysqli_prepare($link, $sql))
+    {
+        if(mysqli_stmt_execute($statement))
+        {
+           # mysqli_stmt_store_result($statement);
+           $result_set = ( mysqli_stmt_get_result($statement));
+           $rows = mysqli_fetch_array($result_set);
+          
+           $state_value = $rows == null ? -1 : $rows['state'];
+           $containsID = true;
+           setcookie("delivery_id", time() - 3600);
+        }
+        mysqli_stmt_close($statement);
+    }
+  }
+
   if($_SERVER["REQUEST_METHOD"] ==  "POST")
   {
     if(array_key_exists("track_delivery", $_POST))
@@ -22,7 +43,8 @@ $state_value = -1;
              $result_set = ( mysqli_stmt_get_result($statement));
              $rows = mysqli_fetch_array($result_set);
 
-             $state_value = $rows['state'];
+             $state_value = $rows == null ? -1 : $rows['state'];
+             $containsID = true;
           }
           mysqli_stmt_close($statement);
       }
@@ -125,15 +147,18 @@ $state_value = -1;
        <div class="block-2 pad-2">
           <center>
             <form id="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"method="post">
-              <br>
-              <br>
-              <h4>Order Tracker</h4>
+              <h2>Order Tracker</h2>
               <input type="text" name="session_id" class="form-control" value="Input session number">
               <br>
             <button type="submit" class="btn btn-round btn-success" name ="track_delivery">Track Delivery Number</button>
           </form>
-
+          <br>
+          <br>
         <?php
+          
+          if($containsID)
+            echo "<h2>Order Status:</h2>"; 
+          
           switch($state_value){
             case 0:
             echo "<img src='0.png'>";
@@ -145,7 +170,8 @@ $state_value = -1;
             echo "<img src='2.png'>";
             break;
             default:
-            echo "<h2>Session id does not exist!</h2>";
+            if($containsID)
+              echo "<h3>Session id does not exist!</h3>";
           }
         ?>
         </center>

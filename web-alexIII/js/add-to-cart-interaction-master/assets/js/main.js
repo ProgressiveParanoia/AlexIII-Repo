@@ -31,9 +31,10 @@
   		cartUndo = cart[0].getElementsByClassName('cd-cart__undo')[0],
   		productId = 0, //this is a placeholder -> use your real product ids instead
   		cartTimeoutId = false,
-  		animatingQuantity = false, userCart = [];
+  		animatingQuantity = false, userCart = [], seshId = -1;
 		initCartEvents();
 		populateEntries();
+
 		function populateEntries(){
 			
 			let xmlhttp = new XMLHttpRequest();
@@ -44,7 +45,7 @@
 					let parsedCart = JSON.parse(responseText[0]);
 					let parsedCartKeys = Object.keys(parsedCart);
 					let cartSize = parsedCartKeys.length;
-
+					seshId = responseText[5];
 					for(let i = 0; i < cartSize; i++){
 						let currentKey = parsedCartKeys[i]
 						let parsedEntry = parsedCart[currentKey];
@@ -69,8 +70,10 @@ Util.removeClass(cart[0], 'cd-cart--empty');
 				cartAddBtns[i].addEventListener('click', addToCart);
 			})(i);}
 */
+		cart[0].getElementsByClassName('cd-cart__checkout')[0].addEventListener('click', function(event){
+			window.location = "tracker.php?id=" + seshId;
+		});
 			// open/close cart
-			
 			cart[0].getElementsByClassName('cd-cart__trigger')[0].addEventListener('click', function(event){
 				event.preventDefault();
 				toggleCart();
