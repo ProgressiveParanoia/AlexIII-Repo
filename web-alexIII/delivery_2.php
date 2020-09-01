@@ -129,7 +129,7 @@
              $user_cart = $json_arr;
             $method_name= "item_1";
             $method_idx = 1;
-            if(count($user_cart) > 0){
+            if($user_cart != null){
               foreach($user_cart as $key => $val){
                 $topmost_idx = trim($key, "item_");
                 if($topmost_idx > $method_idx) $method_idx = ++$topmost_idx; else $method_idx++;
