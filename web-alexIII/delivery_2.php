@@ -129,9 +129,11 @@
              $user_cart = $json_arr;
             $method_name= "item_1";
             $method_idx = 1;
-            foreach($user_cart as $key => $val){
-              $topmost_idx = trim($key, "item_");
-              if($topmost_idx > $method_idx) $method_idx = ++$topmost_idx; else $method_idx++;
+            if(count($user_cart) > 0){
+              foreach($user_cart as $key => $val){
+                $topmost_idx = trim($key, "item_");
+                if($topmost_idx > $method_idx) $method_idx = ++$topmost_idx; else $method_idx++;
+              }
             }
           }
           mysqli_stmt_close($statement);
