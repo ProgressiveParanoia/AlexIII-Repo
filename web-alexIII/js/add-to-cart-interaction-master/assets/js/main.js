@@ -51,7 +51,7 @@
 						for(let i = 0; i < cartSize; i++){
 							let currentKey = parsedCartKeys[i]
 							let parsedEntry = parsedCart[currentKey];
-							let menuEntry = new MenuEntry(currentKey, parsedEntry[1], parsedEntry[2], parsedEntry[3]);
+							let menuEntry = new MenuEntry(parsedEntry[0], parsedEntry[1], parsedEntry[2], parsedEntry[3]);
 							userCart.push(menuEntry);	
 							addProduct(menuEntry);
 							updateCartCount(i + 1);
@@ -157,7 +157,8 @@ Util.removeClass(cart[0], 'cd-cart--empty');
 			// you should also check if the product was already in the cart -> if it is, just update the quantity
 			productId = productId + 1;
 			//let entry = new MenuEntry(productId, "69", "Entry number " + productId, "", "");
-			var productAdded ='<li class="cd-cart__product"><div id="product_entry" class="cd-cart__image" ><a href="#0"><img src="js/add-to-cart-interaction-master/assets/img/product-preview.png" alt="placeholder"></a></div><div class="cd-cart__details"><h3 class="truncate"><a href="#0">'+entry.name+'</a></h3><span class="cd-cart__price">'+entry.price+'.00</span><div class="cd-cart__actions"><button type="submit" class="btn btn-success" name="remove_item" value="'+entry.id+'">Delete</button><div class="cd-cart__quantity"><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
+  $file_dir = "admin/uploads/delivery_menu/";
+			var productAdded ='<li class="cd-cart__product"><div id="product_entry" class="cd-cart__image" ><a href="#0"><img src="../admin/uploads/delivery_menu/"'+entry.id+'.jpg width=180 height=180 alt="placeholder"></a></div><div class="cd-cart__details"><h3 class="truncate"><a href="#0">'+entry.name+'</a></h3><span class="cd-cart__price">'+entry.price+'.00</span><div class="cd-cart__actions"><button type="submit" class="btn btn-success" name="remove_item" value="'+entry.id+'">Delete</button><div class="cd-cart__quantity"><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
 			cartList.insertAdjacentHTML('beforeend', productAdded);
 		};
 
