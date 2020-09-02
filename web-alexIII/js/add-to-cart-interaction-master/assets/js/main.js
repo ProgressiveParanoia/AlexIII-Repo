@@ -42,17 +42,20 @@
 				if(this.readyState == 4 && this.status == 200){
 
 					let responseText = this.responseText.split("~");
-					let parsedCart = JSON.parse(responseText[0]);
-					let parsedCartKeys = Object.keys(parsedCart);
-					let cartSize = parsedCartKeys.length;
-					seshId = responseText[5];
-					for(let i = 0; i < cartSize; i++){
-						let currentKey = parsedCartKeys[i]
-						let parsedEntry = parsedCart[currentKey];
-						let menuEntry = new MenuEntry(currentKey, parsedEntry[1], parsedEntry[2], parsedEntry[3]);
-						userCart.push(menuEntry);	
-						addProduct(menuEntry);
-						updateCartCount(i + 1);
+					if(responseText[0] != "")
+					{
+						let parsedCart = JSON.parse(responseText[0]);
+						let parsedCartKeys = Object.keys(parsedCart);
+						let cartSize = parsedCartKeys.length;
+						seshId = responseText[5];
+						for(let i = 0; i < cartSize; i++){
+							let currentKey = parsedCartKeys[i]
+							let parsedEntry = parsedCart[currentKey];
+							let menuEntry = new MenuEntry(currentKey, parsedEntry[1], parsedEntry[2], parsedEntry[3]);
+							userCart.push(menuEntry);	
+							addProduct(menuEntry);
+							updateCartCount(i + 1);
+						}
 					}
 				}	
 			}

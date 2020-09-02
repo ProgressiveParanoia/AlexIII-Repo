@@ -430,7 +430,7 @@
                     $id = $entry->id;
                     echo "<div class='col-sm-4'>";
                       //echo "<img src='".$file_dir.$id.".jpg'>";
-                      echo "<image src='".$file_dir."page4-img6.jpg'>";
+                      echo "<image src='".$file_dir.$id.".jpg'>";
                     echo "</div>";
 
                     echo "<div class='col-sm-6'>";
