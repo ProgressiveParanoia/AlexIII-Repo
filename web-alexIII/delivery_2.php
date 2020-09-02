@@ -187,7 +187,7 @@
           $p2 = $current_session_id;
           if(mysqli_stmt_execute($statement_get))
           {
-          
+            header("Location:delivery_2.php?id=".$current_session_id);
           }
       }
     }
