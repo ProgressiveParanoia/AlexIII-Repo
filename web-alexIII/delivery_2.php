@@ -506,6 +506,7 @@
 				<a href="#0" class="cd-cart__checkout">
           <em>Place Order - P<span>
             <?php 
+            if($user_cart == null) return;
              foreach($user_cart as $key => $val){
               $price = ((array)$user_cart)[$key][1];
               $total_price += $price;
