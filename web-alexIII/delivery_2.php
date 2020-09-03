@@ -201,7 +201,6 @@
       $item_description = "";
       $encounters = 0;
       $requested_id = $_POST['remove_item'];
-      echo "Id to be removed:" . $requested_id;
       $deducted = false;
           foreach($user_cart as $key => $val){
             $row_entry = ((array)$user_cart)[$key];
