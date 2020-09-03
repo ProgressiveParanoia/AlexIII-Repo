@@ -1,11 +1,12 @@
 
 (function(){
 	class MenuEntry{
-		constructor(id, price, name, description, category){
+		constructor(id, price, name, description, itemKey){
 			this.id = id;
 			this.price = price;
 			this.name = name;
 			this.description = description;
+			this.itemKey = itemKey;
 		}
 	}
 
