@@ -201,11 +201,12 @@
       $item_description = "";
       $encounters = 0;
       $requested_id = $_POST['remove_item'];
-          
+      echo "Id to be removed:" . $requested_id;
       $deducted = false;
           foreach($user_cart as $key => $val){
             $row_entry = ((array)$user_cart)[$key];
             if($deducted == false){
+              echo "Entry value:" . $row_entry[0];
               if($requested_id == $row_entry[0]){
                 $total_price -= $row_entry[1];
                 $deducted = true;
