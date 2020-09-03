@@ -22,7 +22,7 @@
           
            $state_value = $rows == null ? -1 : $rows['state'];
            $containsID = true;
-           setcookie("delivery_id", time() - 3600);
+           setcookie("delivery_id","", time() - 3600);
         }
         mysqli_stmt_close($statement);
     }

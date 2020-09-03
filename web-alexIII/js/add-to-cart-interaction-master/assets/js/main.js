@@ -76,7 +76,7 @@ Util.removeClass(cart[0], 'cd-cart--empty');
 			})(i);}
 */
 		cart[0].getElementsByClassName('cd-cart__checkout')[0].addEventListener('click', function(event){
-			window.location = "tracker.php?id=" + seshId;
+			window.location = "delivery_2.php?stat=done";
 		});
 			// open/close cart
 			cart[0].getElementsByClassName('cd-cart__trigger')[0].addEventListener('click', function(event){

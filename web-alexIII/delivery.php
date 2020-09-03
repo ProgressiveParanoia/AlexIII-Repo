@@ -49,7 +49,7 @@
       }
   }else
   {
-    if(isset($_COOKIE["delivery_id"]))
+    if(isset($_COOKIE["delivery_id"]) && $_COOKIE["delivery_id"] != "")
     {
       $delivery_id = $_COOKIE["delivery_id"];
       //$entries_in_server = file_get_contents("session.ss",  "\n");

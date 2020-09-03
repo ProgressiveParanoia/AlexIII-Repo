@@ -5,10 +5,12 @@
   header('Pragma: no-cache');
 
   require_once "admin/config.php";
+  require_once  'admin/phpmailer/src/Exception.php';
+  require_once  'admin/phpmailer/src/PHPMailer.php';
+  require_once  'admin/phpmailer/src/SMTP.php';
 
   $file_dir = "admin/uploads/delivery_menu/";
   $current_session_id = isset($_COOKIE["delivery_id"]) ? $_COOKIE["delivery_id"] : "";
-  
   if($current_session_id == ""){
               echo "<script>
                     alert('Invalid session Id!');
@@ -79,6 +81,7 @@
     }
   }
 
+  $status ="";
   if($statement_get = mysqli_prepare($link, $sql))
   {
     if(mysqli_stmt_execute($statement_get))
@@ -113,6 +116,8 @@
   $address = "";
   $number = "";
   $res_id = "";
+  $res_email = "";
+  $res_name = "";
   $sql = "SELECT cart, res_name, res_tel,res_email,address, res_id FROM deliveries WHERE res_id=".$current_session_id;
     if($statement = mysqli_prepare($link, $sql))
       {
@@ -125,6 +130,8 @@
              $address = $rows['address'];
              $number = $rows['res_tel'];
              $res_id = $rows['res_id'];
+             $res_email = $rows['res_email'];
+             $res_name = $rows['res_name'];
              $json_arr = json_decode($json_string);
              $user_cart = $json_arr;
             $method_name= "item_1";
@@ -139,11 +146,50 @@
           mysqli_stmt_close($statement);
       }
 
-  if($_SERVER["REQUEST_METHOD"] == "POST")
-  {
-    if(array_key_exists("submit_delivery", $_POST))
+  //if($_SERVER["REQUEST_METHOD"] == "POST")
+  //{
+    $status = isset($_GET['stat']) ? $_GET['stat'] : "";
+    if($status == "done" && $user_cart != null)
     {
-      header("Location:tracker.php");
+      $total_cost = 0;
+      $cart_entries_mail_text = "";
+      foreach($user_cart as $key => $val){
+        $total_cost += $val[1];
+        $cart_entries_mail_text .= $val[2] . "<br/>";
+      }
+      
+      $email_text = "Thank you for choosing alex III Restaurant your order will be prepared shortly! <br/> For delivery tracking please use the online tracker in our website. 
+      <br/> Reference Number:" . $current_session_id . "<br/> Items Ordered:" . $cart_entries_mail_text;
+    
+      //mail($res_email, "Alex III Delivery", $email_text, $header_email);
+
+    $mail = new PHPMailer\PHPMailer\PHPMailer();
+
+      try{
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure ="tls";// PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+    
+        $mail->Username = 'alexiiitestdel@gmail.com'; // YOUR gmail email
+        $mail->Password = 'Qwerty12350!'; // YOUR gmail password
+    
+        // Sender and recipient settings
+        $mail->setFrom('alexiiitestdel@gmail.com', 'Alex III Bot');
+        $mail->addAddress('fernandezjedlyle@gmail.com', 'Receiver Name');
+        $mail->addReplyTo('alexiiitestdel@gmail.com', 'Sender Name'); // to set the reply to
+    
+        // Setting the email content
+        $mail->IsHTML(true);
+        $mail->Subject = "Delivery for Ref #" . $current_session_id;
+        $mail->Body = $email_text;
+//        $mail->AltBody = 'Plain text message body for non-HTML email client. Gmail SMTP email body.';
+        $result = $mail->send();
+      }catch(Exception $e){
+        echo "Error in sending email. Mailer Error: {$mail->ErrorInfo}";
+      }
+     // header("Location:tracker.php?id=".$current_session_id);
     }
 
     if(array_key_exists("add_item", $_POST))
@@ -156,14 +202,15 @@
 
       $encounters = 0;
       $requested_id = $_POST['add_item'];
- 
+      echo "requested id:" . $requested_id;
     for($x = 0; $x < count($menu_data); $x++)
     {
       $column_data = $menu_data[$x];
       $item_id = $column_data[0];
-
+      echo "item id:" . $item_id;
       if($item_id == $requested_id)
       {
+        echo "FUCK!";
         $encounters++;
         $item_price = $column_data[1];
         $item_name = $column_data[2];
@@ -175,6 +222,7 @@
         $user_cart->$method_name[2] = $item_name;
         $user_cart->$method_name[3] = $item_description;
       }
+    }
 
     $json = json_encode($user_cart);
     $sql = "UPDATE `deliveries` set cart = ? WHERE res_id = ?";
@@ -191,7 +239,6 @@
           }
       }
     }
-  }
 
   if(array_key_exists("remove_item", $_POST))
   {
@@ -205,7 +252,6 @@
           foreach($user_cart as $key => $val){
             $row_entry = ((array)$user_cart)[$key];
             if($deducted == false){
-              echo "Entry value:" . $row_entry[0];
               if($requested_id == $row_entry[0]){
                 $total_price -= $row_entry[1];
                 $deducted = true;
@@ -228,7 +274,6 @@
         }
     }
   }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
