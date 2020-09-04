@@ -166,18 +166,11 @@
     $mail = new PHPMailer\PHPMailer\PHPMailer();
 
       try{
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->SMTPSecure ="tls";// PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
-    
-        $mail->Username = 'alexiiitestdel@gmail.com'; // YOUR gmail email
-        $mail->Password = 'Qwerty12350!'; // YOUR gmail password
+        $mail->Host = 'localhost';
     
         // Sender and recipient settings
         $mail->setFrom('alexiiitestdel@gmail.com', 'Alex III Bot');
-        $mail->addAddress('fernandezjedlyle@gmail.com', 'Receiver Name');
+        $mail->addAddress($res_email, 'Receiver Name');
         $mail->addReplyTo('alexiiitestdel@gmail.com', 'Sender Name'); // to set the reply to
     
         // Setting the email content
@@ -189,7 +182,7 @@
       }catch(Exception $e){
         echo "Error in sending email. Mailer Error: {$mail->ErrorInfo}";
       }
-     // header("Location:tracker.php?id=".$current_session_id);
+      header("Location:tracker.php?id=".$current_session_id);
     }
 
     if(array_key_exists("add_item", $_POST))

@@ -2,6 +2,9 @@
 // INIT
 require __DIR__ . DIRECTORY_SEPARATOR . "lib" . DIRECTORY_SEPARATOR . "2a-config.php";
 require PATH_LIB . "2b-lib-res.php";
+require_once  '../admin/phpmailer/src/Exception.php';
+require_once  '../admin/phpmailer/src/PHPMailer.php';
+require_once  '../admin/phpmailer/src/SMTP.php';
 $reslib = new Res();
 
 /* ANTI-SPAM MEASURE YOU CAN CONSIDER
@@ -233,6 +236,36 @@ if ($_POST['req']) { switch ($_POST['req']) {
       @mail("admin@yoursite.com", "Reservation receieved", $message);
     }
     */
+
+    if($pass){
+      $email_text = "Good day Ma'am/Sir". $_POST['name']. "Your Reservation has been confirmed with the following details<br/><br/>"
+       .
+        "Reservation Date:" . $_POST['date'] . "<br/>";
+        "Time:" . $_POST['res_start'] . "-". $_POST['res_end'] . "<br/>".
+        "Branch Address:" . $_POST['branch_address'] ."<br/>".
+        "Party Package:" . $_POST['package']. "<br/>".
+        "Notes:" . $_POST['notes']
+       . 
+       "<br/><br/>Thank you for choosing Alex III Restaurant";
+
+       try{
+        $mail->Host = 'localhost';
+    
+        // Sender and recipient settings
+        $mail->setFrom('alexiiitestdel@gmail.com', 'Alex III Bot');
+        $mail->addAddress( $_POST['email'], 'Receiver Name');
+        $mail->addReplyTo('alexiiitestdel@gmail.com', 'Sender Name'); // to set the reply to
+    
+        // Setting the email content
+        $mail->IsHTML(true);
+        $mail->Subject = "Alex III Reservation for " . $_POST['name'];
+        $mail->Body = $email_text;
+//        $mail->AltBody = 'Plain text message body for non-HTML email client. Gmail SMTP email body.';
+        $result = $mail->send();
+      }catch(Exception $e){
+        echo "Error in sending email. Mailer Error: {$mail->ErrorInfo}";
+      }
+    }
 
     // Server response
     echo json_encode([
