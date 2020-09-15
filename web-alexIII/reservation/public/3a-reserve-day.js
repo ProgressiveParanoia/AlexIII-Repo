@@ -82,7 +82,7 @@ var res = {
     data.append('package', package);
     // AJAX call
     var xhr = new XMLHttpRequest();
-    alert("Post!");
+    alert("Reservation successfully posted!");
     xhr.open('POST', "reservation/2c-ajax-reserve.php", true);
     xhr.onload = function(){
       var res = JSON.parse(this.response);
@@ -90,11 +90,10 @@ var res = {
       if (res.status==1) {
         //location.href = "3d-thank-you.html";
         location.href = "reservation.php";
-        alert("Successfully saved!");
       }
       // ERROR - show error
       else {
-        alert(res.status);
+        alert(res.message);
       }
     };
     xhr.send(data);

@@ -236,24 +236,24 @@ if ($_POST['req']) { switch ($_POST['req']) {
       @mail("admin@yoursite.com", "Reservation receieved", $message);
     }
     */
-
     if($pass){
-      $email_text = "Good day Ma'am/Sir". $_POST['name']. "Your Reservation has been confirmed with the following details<br/><br/>"
+        $email_usr = $_POST['email'];
+      $email_text = "Good day Ma'am/Sir ". $_POST['name']. " your Reservation has been confirmed with the following details:<br/><br/>"
        .
-        "Reservation Date:" . $_POST['date'] . "<br/>";
-        "Time:" . $_POST['res_start'] . "-". $_POST['res_end'] . "<br/>".
+        "Reservation Date:" . $_POST['date'] . "<br/>".
+        "Time:" . $_POST['res_start'] .  ":00 - ". $_POST['res_end'] . ":00<br/>".
         "Branch Address:" . $_POST['branch_address'] ."<br/>".
         "Party Package:" . $_POST['package']. "<br/>".
-        "Notes:" . $_POST['notes']
-       . 
+        "Number of people:" . $_POST['count'].
        "<br/><br/>Thank you for choosing Alex III Restaurant";
+        $mail = new PHPMailer\PHPMailer\PHPMailer();
 
        try{
         $mail->Host = 'localhost';
     
         // Sender and recipient settings
         $mail->setFrom('alexiiitestdel@gmail.com', 'Alex III Bot');
-        $mail->addAddress( $_POST['email'], 'Receiver Name');
+        $mail->addAddress($email_usr, 'Receiver Name');
         $mail->addReplyTo('alexiiitestdel@gmail.com', 'Sender Name'); // to set the reply to
     
         // Setting the email content

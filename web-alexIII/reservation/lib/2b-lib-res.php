@@ -95,7 +95,7 @@ class Res {
   // bookDay() : reserve for the entire day
 
     // Check if customer already booked on the day
-    $sql = "SELECT * FROM `reservations` WHERE `res_email`=? AND `res_date`=?";
+    $sql = "SELECT * FROM `reservations` WHERE `res_email`=? AND `res_date`=? AND `changed_verification` = 1 AND `verified` = 1";
     $cond = [$email, $date];
     $check = $this->fetch($sql, $cond);
     if (count($check)>0) {
