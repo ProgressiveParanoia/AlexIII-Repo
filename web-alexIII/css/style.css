@@ -2,13 +2,14 @@
 html, body {width:100%; padding:0; margin:0; scroll-behavior: smooth;}
 
 body { 	 
-	font: 14px/18px "Helvetica", Times, serif;
+  font: 'Arvo-Regular';/*, Times, serif;*/
+  src: url('fonts/Arvo-Regular.ttf');
 	color:#b4b4b4;
 	background: url(../images/bg.gif) center 0 repeat;
 }
 .ic {border:0;float:right;background:#fff;color:#f00;width:50%;line-height:10px;font-size:10px;margin:-220% 0 0 0;overflow:hidden;padding:0}
 .bg-top {background:url(../images/bg-top.jpg) center 0 repeat-x; width:100%; }
-.bgr {background:url(../images/ALEXIIIBG.png) center 0 no-repeat; 
+.bgr {background:url(../images/AlexIIIBG.png) center 0 no-repeat; 
       background-size: cover;
      }
 

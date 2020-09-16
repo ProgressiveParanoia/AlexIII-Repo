@@ -16,7 +16,6 @@ var res = {
       select = document.querySelector("#res_date select.year");
       data.append('year', select.value);
     }
-
     // AJAX call
     var xhr = new XMLHttpRequest();
     xhr.open('POST', "reservation/2c-ajax-reserve.php", true);
@@ -31,7 +30,19 @@ var res = {
       for (var i of select) {
         i.addEventListener("click", res.pick);
       }
+      let img_ref = document.getElementById("res_img");
+      img_ref.src = "images/res-pack-a.jpg";
+      document.getElementById("res_pack_select").addEventListener("change", function(){
+        let package = document.getElementById("res_pack_select").value;
+        //let img_ref = document.getElementById("res_img");
 
+        if(package == "Package_A")
+        {
+          img_ref.src = "images/res-pack-a.jpg";
+        }else{
+          img_ref.src = "images/res-pack-b.jpg";
+        }
+      });
       // Enable submit
       document.getElementById("res_go").disabled = false;
     };

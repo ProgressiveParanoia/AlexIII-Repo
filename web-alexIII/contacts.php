@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/style.css">
 	<link rel="stylesheet" href="css/zerogrid.css" type="text/css" media="all">
 	<link rel="stylesheet" href="css/responsive.css" type="text/css" media="all">
-    <link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'>
+    <!--<link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'>-->
     <script src="js/jquery-1.7.min.js"></script>
     <script src="js/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="js/css3-mediaqueries.js"></script>
@@ -202,7 +202,12 @@
                 <label><strong>Email:</strong><input type="text" value=""><strong class="clear"></strong></label>
                 <label><strong>Message:</strong><textarea></textarea><strong class="clear"></strong></label>
                 <strong class="clear"></strong>
-                <div class="btns"><a href="#" class="link">clear</a><a href="#" class="link" onClick="document.getElementById('form').submit()">send</a></div>
+                <div class="btns">
+                  <button type="submit" class="link">Clear</button>
+                  <!--<a href="#" class="link">clear</a>-->
+                  <button type="submit" class="link" onClick="document.getElementById('form').submit()">Send</button>
+                  <!--<a href="#" class="link" onClick="document.getElementById('form').submit()">send</a>-->
+                </div>
               </fieldset>  
             </form> 
 			</div>
