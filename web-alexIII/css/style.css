@@ -2,10 +2,12 @@
 html, body {width:100%; padding:0; margin:0; scroll-behavior: smooth;}
 
 body { 	 
+  background:url(../images/AlexIIIBG.png) center 0 no-repeat; 
+  background-size: cover;
   font: 'Arvo-Regular';/*, Times, serif;*/
   src: url('fonts/Arvo-Regular.ttf');
 	color:#b4b4b4;
-	background: url(../images/bg.gif) center 0 repeat;
+	/*background: url(../images/bg.gif) center 0 repeat;*/
 }
 .ic {border:0;float:right;background:#fff;color:#f00;width:50%;line-height:10px;font-size:10px;margin:-220% 0 0 0;overflow:hidden;padding:0}
 .bg-top {background:url(../images/bg-top.jpg) center 0 repeat-x; width:100%; }
@@ -254,14 +256,14 @@ ul.list {margin-top:26px; width:230px; float:left; margin-right:40px;}
 .number>strong {display:inline-block; float:left; text-align:center;font-size:18px; line-height:22px; color:#131313; font-style:italic; font-weight:normal; text-shadow:#6c6c6c 0px 0px 3px; margin:-4px 5px 0 0;}
 
 /****************************footer************************/
-footer {margin:0 auto; position:relative; overflow:hidden; padding:32px 0 40px 0; text-align:center; color:#a3a2a2; background:url(../images/footer-bg.png) center 0 no-repeat; } 
+footer {margin:0 auto; position:relative; overflow:hidden; padding:32px 0 40px 0; text-align:center; color:#a3a2a2;  } 
 footer p, footer p a.link {font-weight:bold;}
 
 /**********************form**********************/
 .map {width:100%; height:217px; margin:33px 0 0 0;}
 .map iframe {width:100%; height:217px;}
 
-dl.adr {width:200px; float:left; margin-right:40px;}
+dl.adr {width:300px; float:left; margin-right:40px;}
 dl.adr dt {margin:14px 0 6px 0;}
 dl.adr dd span { width:62px; text-align:right; display:block; float:left; margin-right:15px;}
 dl.adr dd {}

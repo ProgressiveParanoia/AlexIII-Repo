@@ -226,12 +226,14 @@
     </section> 
 
 <!--==============================footer=================================-->
+<!--
 <footer>
   <div class="zerogrid">
       <p>© 2020 ALEX III RESTAURANT<br>
       </p> 
   </div>
   </footer> 
+              -->
 </div> 
 </div>       
 </body>

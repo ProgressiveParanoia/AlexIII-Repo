@@ -145,6 +145,12 @@
             </div>
             <ul class="gallery">
 					<?php
+						$descriptions = array("The film is about the history of Alex III Restaurant on how it began and how it became a well known restaurant in metro manila.",
+											 "The film is about the importance of family bonding and how Alex III Restaurant makes a family bonding
+											 more meaningful.",
+											 "The film is about friendship even though you and your friends doesn’t see each other Alex III Restaurant is always there to deliver comfort food to you and your friends.",
+											"The film is about love at Alex III Restaurant because of its relaxing environment and good food it also has been a place where wedding and proposals have been witnessed.",
+											"The film is about celebrations being held at Alex III Restaurant families could bond and dine altogether inside the restaurant serving quality food and great service");
 						$slider_dir = 'admin/uploads/gallery';
     					$slider_images = array_diff(scandir($slider_dir), array('..', '.'));
 						for($i = 2; $i < count($slider_images) + 2; $i++)
@@ -157,9 +163,13 @@
 									echo "<li><a class='plus' href='".$slider_dir."/".$current_slider_img."'><img src='".$slider_dir."/".$current_slider_img."'</li>";
 								}else if(strpos($current_slider_img, ".mp4"))
 								{
-									echo "<li><video width=640 height=480 controls>
-										<source src='".$slider_dir."/".$current_slider_img."' type='video/mp4'>
-									</video>
+									echo "<li>
+											<center>
+												<video width=640 height=480 controls>
+													<source src='".$slider_dir."/".$current_slider_img."' type='video/mp4'>
+												</video>
+											<br>".$descriptions[($i - 2)]."
+											</center>
 									</li>";								
 								}
 							}

@@ -46,7 +46,7 @@
                 <li><a href="cookbook.html">cookbook</a></li>
             </ul>
             <div class="clear"></div>
-         </nav>
+        </nav>
        -->
       <div class="topnav" id="myTopnav">
       <a href="index.php">Home</a>
