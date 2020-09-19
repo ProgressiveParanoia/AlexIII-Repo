@@ -105,12 +105,17 @@
 							{
 								if(strpos($current_slider_img, ".jpg"))
 								{
-									echo "<li><a class='plus' href='".$slider_dir."/".$current_slider_img."'><img src='".$slider_dir."/".$current_slider_img."'></li>";
+									
+									echo "<li>
+											<img src='".$slider_dir."/".$current_slider_img."'>
+										</li>";
+									
+									//echo "<li><a class='plus' href='".$slider_dir."/".$current_slider_img."'><img src='".$slider_dir."/".$current_slider_img."'></li>";
 								}else if(strpos($current_slider_img, ".mp4"))
 								{
 									echo "<li><video width=640 height=480 controls>
 										<source src='".$slider_dir."/".$current_slider_img."' type='video/mp4'>
-									</video>
+										</video>
 									</li>";								
 								}
 							}
@@ -125,14 +130,14 @@
     </section> 
 
 <!--==============================footer=================================-->
-<!--
+
 <footer>
  	<div class="zerogrid">
       <p>© 2020 ALEX III RESTAURANT<br>
       </p> 
 	</div>
-  </footer>	
-					-->
+</footer>	
+					
 </div> 
 </div>       
 </body>

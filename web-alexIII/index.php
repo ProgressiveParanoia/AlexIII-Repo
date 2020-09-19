@@ -221,7 +221,7 @@
 
 				<div class="col-1-2">
 	            	<div class="pad">
-	                	<a class="plus" href="images/Pancit.png"><img src="images/Pancit.png" alt=""></a>
+	                	<a class="plus" href="images/PancitRemake.jpg"><img src="images/PancitRemake.jpg" alt=""></a>
 
 	                	<p class="border-2"><span class="it-bold clr-1">Alex III Special Pancit Canton</span><br> </p>
 	                </div>

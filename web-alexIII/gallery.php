@@ -141,7 +141,7 @@
        <div class="block-2 pad-2">
         <div class="block-4 col-3">
         	<div class="h2">
-       			<h2 class="h2-line-2">Our gallery:</h2>
+       			<h2 class="h2-line-2">Gallery</h2>
             </div>
             <ul class="gallery">
 					<?php
