@@ -182,7 +182,10 @@ ul.menu li:hover a, ul.menu li.current a  { background:#e4e4e4; }
 .block-1>div a.link-1 {margin-right:19px;}
 .block-1>div.block-1-last  a.link-1 {margin-right:9px;}
 
-.block-2 {overflow:hidden; border:#bebebe 1px solid; border-top:none !important; /*background:url(../images/block-2.jpg) 0 bottom no-repeat #fff;*/ padding-bottom:62px; background-color: #F9E4B7;}
+.block-2 {overflow:hidden; border:#bebebe 1px solid; border-top:none !important; background-size: cover; background-position: center; background-repeat: no-repeat; padding-bottom:62px; background-color: #F9E4B7;   border-image: url(../images/borders/border2.png); 
+  border-image-repeat: repeat;
+  border-image-slice: 30;
+  border-image-width: 10px;}
 
 .col-1 {float:left;width:590px;}
 .col-2 {float:left;width:230px;}
