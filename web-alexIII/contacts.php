@@ -53,8 +53,6 @@
       <a href="gallery.php">Gallery</a>
       <a href="menu.php">Menu</a>
       <a href="contacts.php" class="active">Contacts</a>
-      <a href="reservation.php">Reservation</a>
-      <a href="delivery.php">Delivery</a>
       <a href="javascript:void(0);" class="icon" onclick="myFunction()">
         <i class="fa fa-bars"></i>
       </a>
